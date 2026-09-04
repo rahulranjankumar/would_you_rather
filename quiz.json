@@ -1,0 +1,92 @@
+[
+  {
+    "category": "Tech",
+    "prompt": "What does 'HTTP' stand for?",
+    "options": ["HyperText Transfer Protocol", "High Transfer Text Protocol", "Hyperlink Text Transfer Process", "Host Transfer Text Protocol"],
+    "correct": 0
+  },
+  {
+    "category": "Tech",
+    "prompt": "Which company develops the Java programming language today?",
+    "options": ["Microsoft", "Oracle", "Google", "IBM"],
+    "correct": 1
+  },
+  {
+    "category": "Tech",
+    "prompt": "In Git, which command creates a new branch and switches to it?",
+    "options": ["git branch new", "git switch --create", "git checkout -b", "git new -b"],
+    "correct": 2
+  },
+  {
+    "category": "Cloud",
+    "prompt": "What does 'EC2' stand for in AWS?",
+    "options": ["Elastic Compute Cloud", "Elastic Container Cloud", "Enterprise Compute Cluster", "Edge Compute Center"],
+    "correct": 0
+  },
+  {
+    "category": "Cloud",
+    "prompt": "Which Azure service runs serverless functions?",
+    "options": ["Azure Blob", "Azure Functions", "Azure DevOps", "Azure Monitor"],
+    "correct": 1
+  },
+  {
+    "category": "General Knowledge",
+    "prompt": "What is the capital of Australia?",
+    "options": ["Sydney", "Melbourne", "Canberra", "Perth"],
+    "correct": 2
+  },
+  {
+    "category": "General Knowledge",
+    "prompt": "How many continents are there on Earth?",
+    "options": ["5", "6", "7", "8"],
+    "correct": 2
+  },
+  {
+    "category": "General Knowledge",
+    "prompt": "Which planet is known as the Red Planet?",
+    "options": ["Venus", "Mars", "Jupiter", "Saturn"],
+    "correct": 1
+  },
+  {
+    "category": "Retail & Tech",
+    "prompt": "Currys is a retailer best known for selling what?",
+    "options": ["Groceries", "Clothing", "Electronics & tech", "Furniture only"],
+    "correct": 2
+  },
+  {
+    "category": "Retail & Tech",
+    "prompt": "What does 'OLED' stand for in TVs?",
+    "options": ["Organic Light-Emitting Diode", "Optical LED", "Over-Layered Emission Display", "Onboard Light Emission Device"],
+    "correct": 0
+  },
+  {
+    "category": "Tech",
+    "prompt": "Which data structure works on a 'First In, First Out' (FIFO) basis?",
+    "options": ["Stack", "Queue", "Tree", "Graph"],
+    "correct": 1
+  },
+  {
+    "category": "Tech",
+    "prompt": "What does 'SQL' stand for?",
+    "options": ["Structured Query Language", "Sequential Query Logic", "Simple Question Language", "System Query Layer"],
+    "correct": 0
+  },
+  {
+    "category": "General Knowledge",
+    "prompt": "Which is the largest ocean on Earth?",
+    "options": ["Atlantic", "Indian", "Arctic", "Pacific"],
+    "correct": 3
+  },
+  {
+    "category": "Fun",
+    "prompt": "In which country did the game of chess originate?",
+    "options": ["China", "India", "Persia", "Egypt"],
+    "correct": 1
+  },
+  {
+    "category": "Tech",
+    "prompt": "What is the default port for HTTPS?",
+    "options": ["80", "8080", "443", "22"],
+    "correct": 2
+  }
+]

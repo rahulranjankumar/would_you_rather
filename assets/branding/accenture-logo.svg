@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60" role="img" aria-label="Accenture">
+  <!-- FALLBACK wordmark only. Replace with the OFFICIAL Accenture logo from the
+       Accenture Branding Portal before any real/public use. -->
+  <text x="0" y="42" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#ffffff" letter-spacing="-1">accenture</text>
+  <path d="M262 8 L286 20 L262 32" fill="none" stroke="#A100FF" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
