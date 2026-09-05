@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    ports: ["3000:3000"]
+    environment: [PORT=3000, DEFAULT_TIMER_MS=20000, MAX_PLAYERS=300]
+    restart: unless-stopped

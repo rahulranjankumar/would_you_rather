@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 56" role="img" aria-label="Accenture">
+  <!-- Wordmark + greater-than accent, aligned as one lockup. Internal Fun
+       Friday placeholder — replace with the OFFICIAL Accenture asset for
+       external use (see BRANDING.md). -->
+  <text x="0" y="40" font-family="'Segoe UI',Arial,Helvetica,sans-serif"
+        font-size="44" font-weight="700" letter-spacing="-1.5" fill="#ffffff">accenture</text>
+  <!-- caret sized to the wordmark's cap height, baseline-aligned, sitting just after it -->
+  <path d="M232 14 L256 28 L232 42" fill="none" stroke="#A100FF" stroke-width="7"
+        stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

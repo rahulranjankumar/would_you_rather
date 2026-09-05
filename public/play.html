@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Playing — Fun Friday</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div id="brand"></div>
+<div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 4px 12px;gap:10px">
+    <div class="muted" id="whoami" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">—</div>
+    <div class="badge win count" style="flex:0 0 auto">⭐ <span id="score">0</span></div>
+  </div>
+
+  <div id="lobby" class="glass card center stage-in" style="min-height:48vh">
+    <div class="pill" id="lobbyPill">You're in! 🙌</div>
+    <h2>Waiting for the host to start…</h2>
+    <div class="sub">Keep this screen open — the first question appears here.</div>
+    <div class="big" id="lobbyCount">0</div>
+    <div class="muted">players in the room</div>
+  </div>
+
+  <div id="qview" class="glass card hide">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div class="qcategory" id="qcat">—</div>
+      <div class="timer" id="qtimer">—</div>
+    </div>
+    <div class="progress"><div id="qprog"></div></div>
+    <div class="question mt" id="qtext">—</div>
+    <div class="options" id="opts"></div>
+    <div class="sub mt" id="voteHint">Tap your choice — you can change it until voting locks.</div>
+  </div>
+
+  <div id="locked" class="glass card center hide frost-pulse" style="min-height:38vh">
+    <h2>🔒 Locked in!</h2><div class="sub">Counting the room…</div>
+  </div>
+
+  <div id="results" class="glass card hide">
+    <div class="qcategory" id="rcat">The room says…</div>
+    <div class="question" id="rtext">—</div>
+    <div class="resrow" id="resrow"></div>
+    <div style="text-align:center"><span class="badge" id="youBadge">—</span></div>
+    <div class="mt2" id="lbWrap"><b>🏅 Leaderboard</b><div class="list" id="lb"></div></div>
+  </div>
+
+  <div id="over" class="glass card center hide stage-in">
+    <div class="pill">That's a wrap! 🎬</div>
+    <h1>Thanks for playing!</h1>
+    <div id="finalLbWrap"><div class="sub">Final leaderboard</div>
+      <div class="list" id="lbFinal" style="width:100%;max-width:420px;margin:0 auto"></div>
+      <div class="badge win mt2">Your score: <span id="finalScore">0</span> ⭐</div></div>
+    <div class="sub mt2">The host can start a new round anytime — hang tight. 🔁</div>
+  </div>
+</div>
+<div id="footer"></div>
+<script src="/shared.js"></script>
+<script src="/intro.js"></script>
+<script>
+addAurora();
+document.getElementById('brand').innerHTML = BRAND_BAR;
+document.getElementById('footer').innerHTML = BRAND_FOOTER;
+const me = JSON.parse(localStorage.getItem('wyr') || 'null');
+if (!me) location.href = '/';
+document.getElementById('whoami').textContent = '👋 ' + me.name + '  ·  Room ' + me.room;
+
+let gameType='wyr', scoringMode='points';
+const views=['lobby','qview','locked','results','over'];
+function show(id){ views.forEach(v=>{ const el=document.getElementById(v); el.classList.toggle('hide', v!==id); if(v===id){ el.classList.remove('stage-in'); void el.offsetWidth; el.classList.add('stage-in'); } }); }
+
+let myChoice=null, currentOptions=[];
+const cd = makeCountdown((remaining, dur)=>{ const t=document.getElementById('qtimer'); const s=Math.ceil(remaining/1000); t.textContent=s+'s'; t.classList.toggle('low', s<=5); document.getElementById('qprog').style.width = dur ? Math.max(0,Math.min(100,(remaining/dur)*100))+'%':'0%'; });
+
+function applyMode(){ const on=scoringMode==='points'; document.getElementById('lbWrap').classList.toggle('hide',!on); document.getElementById('finalLbWrap').classList.toggle('hide',!on); document.getElementById('lobbyPill').textContent=(gameType==='quiz'?'🧠 Quiz — you\'re in!':'🎲 Would You Rather — you\'re in!'); }
+
+function renderQuestion(q){
+  show('qview'); currentOptions=q.options||[]; if(q.gameType)gameType=q.gameType;
+  document.getElementById('qcat').textContent=q.category||'';
+  document.getElementById('qtext').textContent=q.prompt||(gameType==='quiz'?'Question':'Would you rather…');
+  const wrap=document.getElementById('opts'); wrap.className='options n'+currentOptions.length;
+  wrap.innerHTML=currentOptions.map((t,i)=>optionCardHTML(t,i)).join('');
+  wrap.querySelectorAll('.opt').forEach(el=>{ const i=parseInt(el.dataset.i,10); el.onclick=()=>vote(i); el.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();vote(i);}}; attachRipple(el); });
+  myChoice=null; document.getElementById('voteHint').textContent='Tap your choice — you can change it until voting locks.';
+  if (q.startedAt && q.durationMs) cd.start(q.startedAt, q.durationMs);
+}
+function markSelected(i){ document.querySelectorAll('#opts .opt').forEach(el=>el.classList.toggle('selected', parseInt(el.dataset.i,10)===i)); }
+async function vote(i){ if(i===myChoice)return; myChoice=i; markSelected(i); document.getElementById('voteHint').textContent='Locked in: '+OPT_LETTERS[i]+' — change any time before lock.'; const r=await API.post('/api/vote',{roomCode:me.room,playerId:me.playerId,choice:i}); if(r&&r.error)document.getElementById('voteHint').textContent=r.error; }
+
+function renderResults(d){
+  show('results');
+  document.getElementById('rcat').textContent=(d.gameType||gameType)==='quiz'?'Correct answer + results':'The room says…';
+  document.getElementById('rtext').textContent=d.prompt||'Results';
+  const opts=d.options||currentOptions; const correct=(d.gameType||gameType)==='quiz'?d.correct:null;
+  const row=document.getElementById('resrow');
+  row.innerHTML=(d.percents||[]).map((pct,i)=>resultBarHTML(opts[i]||'',i,pct,(d.counts||[])[i]||0,{correct,winners:d.winners,showCounts:true})).join('');
+  animateResultBars(row);
+  const badge=document.getElementById('youBadge');
+  if(correct!=null){ if(d.yourCorrect===true){badge.className='badge correct';badge.textContent='✅ Correct! Nice one';shimmerBurst(70,{colors:['#FFCE4A','#fff','#9ff5ec']});} else if(d.yourCorrect===false){badge.className='badge wrong';badge.textContent='❌ Not quite — correct was '+OPT_LETTERS[correct];} else{badge.className='badge lose';badge.textContent="You didn't answer this one";} }
+  else{ if(d.yourChoiceWasMajority===true){badge.className='badge win';badge.textContent='🎯 You went with the crowd!';shimmerBurst(60);} else if(d.yourChoiceWasMajority===false){badge.className='badge lose';badge.textContent='🦄 Bold pick — you were in the minority!';} else{badge.className='badge lose';badge.textContent="You didn't vote this round";} }
+  if(typeof d.yourScore==='number'){document.getElementById('score').textContent=d.yourScore;document.getElementById('finalScore').textContent=d.yourScore;}
+}
+function renderLB(list,elId){ document.getElementById(elId).innerHTML=leaderboardRowsHTML(list); }
+
+connectSSE({ room:me.room, role:'player', playerId:me.playerId, handlers:{
+  sync(s){
+    if(s.gameType)gameType=s.gameType; if(s.scoringMode){scoringMode=s.scoringMode;applyMode();}
+    if(typeof s.yourScore==='number')document.getElementById('score').textContent=s.yourScore;
+    if(s.status==='LOBBY'){show('lobby');document.getElementById('lobbyCount').textContent=s.playerCount;}
+    else if(s.status==='QUESTION_ACTIVE'&&s.question){renderQuestion({...s.question,gameType:s.gameType,startedAt:s.timer&&s.timer.startedAt,durationMs:s.timer&&s.timer.durationMs});if(s.hasVoted&&s.yourChoice!=null){myChoice=s.yourChoice;markSelected(s.yourChoice);}}
+    else if(s.status==='LOCKED'){cd.stop();show('locked');}
+    else if(s.status==='RESULTS'&&s.results){renderResults({...s.results,gameType:s.gameType,prompt:s.question&&s.question.prompt,options:s.question&&s.question.options,yourChoiceWasMajority:s.yourChoiceWasMajority,yourCorrect:s.yourCorrect,yourScore:s.yourScore});renderLB(s.leaderboard,'lb');}
+    else if(s.status==='GAME_OVER'){cd.stop();show('over');renderLB(s.leaderboard,'lbFinal');}
+  },
+  'lobby:update'(d){ document.getElementById('lobbyCount').textContent=d.playerCount; },
+  'question:show'(q){ renderQuestion(q); },
+  'votes:locked'(){ cd.stop(); show('locked'); },
+  'results:reveal'(d){ renderResults({...d, options:currentOptions}); },
+  'leaderboard:update'(d){ renderLB(d.top,'lb'); },
+  'game:over'(d){ cd.stop(); show('over'); renderLB(d.leaderboard,'lbFinal'); },
+  'game:restart'(d){ myChoice=null; if(d&&d.gameType)gameType=d.gameType; if(d&&d.scoringMode){scoringMode=d.scoringMode;applyMode();} document.getElementById('score').textContent='0'; show('lobby'); },
+}});
+applyMode();
+</script>
+</body>
+</html>

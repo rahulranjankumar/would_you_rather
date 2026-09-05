@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Host Console — Fun Friday</title>
+<link rel="stylesheet" href="/app.css">
+<style>
+  .hostpanel{display:flex;flex-direction:column}
+  .hp-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .hp-right{display:flex;align-items:center;gap:10px}
+  /* status chip with pulsing dot */
+  .statuschip{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:999px;font-weight:800;font-size:13px;letter-spacing:.06em;
+    background:linear-gradient(160deg,var(--glass-14),var(--glass-06));border:1px solid var(--glass-brd);box-shadow:inset 0 1px 0 var(--glass-hi)}
+  .statuschip .dot{width:9px;height:9px;border-radius:50%;background:#9aa0b5;box-shadow:0 0 10px currentColor;position:relative}
+  .statuschip .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:currentColor;opacity:.35;animation:dotpulse 1.8s ease-out infinite}
+  @keyframes dotpulse{0%{transform:scale(.6);opacity:.5}100%{transform:scale(2.2);opacity:0}}
+  .statuschip.s-lobby .dot{background:#8b86a6;color:#8b86a6}
+  .statuschip.s-active .dot{background:#00E6D2;color:#00E6D2}
+  .statuschip.s-locked .dot{background:#FFB020;color:#FFB020}
+  .statuschip.s-results .dot{background:#A100FF;color:#A100FF}
+  .statuschip.s-over .dot{background:#FF4FD8;color:#FF4FD8}
+  .typechip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-weight:700;font-size:13px;
+    background:rgba(161,0,255,.16);color:#e9d5ff;border:1px solid rgba(161,0,255,.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
+  .typechip.quiz{background:rgba(0,230,210,.14);color:#9ff5ec;border-color:rgba(0,230,210,.45)}
+  /* progress bar with question ticks */
+  .hp-progress{position:relative;height:34px;margin-top:16px;border-radius:12px;overflow:hidden;
+    background:rgba(0,0,0,.32);border:1px solid var(--glass-brd);box-shadow:inset 0 1px 0 var(--glass-hi);display:flex;align-items:center}
+  .hp-progress-bar{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:12px;
+    background:linear-gradient(90deg,var(--accent),var(--teal));box-shadow:0 0 18px rgba(161,0,255,.5);transition:width .6s var(--ease-expo)}
+  .hp-progress-lbl{position:relative;z-index:1;padding:0 14px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+  /* voted counter as a subtle inset pill */
+  .votedbar{margin-top:14px;min-height:20px}
+  .votedbar .muted{display:inline-block;font-weight:700;font-size:13px}
+  /* controls pinned with a top divider for structure */
+  .hp-controls{margin-top:auto;padding-top:18px;border-top:1px solid rgba(255,255,255,.1)}
+  /* richer host option preview cards */
+  #hopts .opt{min-height:74px;border-radius:16px}
+  #hopts .opt .tag{width:30px;height:30px;font-size:14px}
+</style>
+</head>
+<body>
+<div id="brand"></div>
+<div class="wrap">
+  <div id="setup" class="glass card pad-lg stage-in">
+    <div class="pill">🎛️ Host Console</div>
+    <h1 id="setupTitle">Set up your game</h1>
+    <div class="sub">Pick a game type and settings, then open the Big Screen and share it on Teams.</div>
+    <label>Game type</label>
+    <div class="seg" id="typeSeg"><button data-v="wyr" class="active">🎲 Would You Rather</button><button data-v="quiz">🧠 Quiz (correct answers)</button></div>
+    <div class="grid2 mt">
+      <div><label>Scoring / leaderboard</label><div class="seg" id="scoreSeg"><button data-v="points" class="active">🏆 Leaderboard on</button><button data-v="fun">😄 Just for fun</button></div></div>
+      <div><label>Timer per question</label><select id="timer"><option value="15000">15 seconds</option><option value="20000" selected>20 seconds</option><option value="30000">30 seconds</option><option value="45000">45 seconds</option></select></div>
+    </div>
+    <button class="btn mt2" id="createBtn">Create room →</button>
+    <button class="btn ghost small mt hide" id="cancelSetup">← Back to current game</button>
+  </div>
+
+  <div id="console" class="hide">
+    <div id="banner" class="glass card hide" style="border-color:rgba(255,176,32,.5);background:rgba(255,176,32,.1);margin-bottom:14px;padding:14px 18px;font-size:14px"></div>
+    <div class="grid2">
+      <div class="glass card center">
+        <div class="qcategory">Scan to join · or enter the code</div>
+        <div class="roomcode" id="code">—</div>
+        <div class="qr"><img id="qr" alt="Join QR" onerror="this.style.display='none'"></div>
+        <div class="muted mt" style="word-break:break-all">Join link: <span id="joinUrl" style="color:#d9b6ff"></span></div>
+        <a class="btn ghost small mt" id="screenLink" target="_blank">📺 Open Big Screen (share on Teams)</a>
+      </div>
+      <div class="glass card hostpanel">
+        <div class="hp-head">
+          <div class="statuschip" id="statusChip"><span class="dot"></span><span id="statusLbl">LOBBY</span></div>
+          <div class="hp-right">
+            <span class="typechip" id="typeChip">🎲 WYR</span>
+            <span class="badge win count">👥 <span id="pcount">0</span></span>
+          </div>
+        </div>
+        <div class="hp-progress"><div class="hp-progress-bar" id="hpBar"></div><span class="hp-progress-lbl" id="progressLbl">Not started</span></div>
+
+        <div class="qcategory mt2" id="hcat"></div>
+        <div class="question" id="hqtext" style="font-size:clamp(17px,3.4vw,21px);min-height:34px">Waiting to start…</div>
+        <div class="options" id="hopts" style="display:none"></div>
+        <div class="votedbar" id="votedWrap"><span class="muted" id="votedLbl"></span></div>
+        <div class="resrow mt" id="hres"></div>
+
+        <div class="hp-controls">
+          <div class="btn-row"><button class="btn" id="startBtn">▶ Start</button><button class="btn ghost" id="lockBtn">🔒 Lock</button><button class="btn ghost" id="nextBtn">Next →</button></div>
+          <div class="btn-row mt"><button class="btn ghost small" id="restartBtn">🔁 Restart (same)</button><button class="btn ghost small" id="endBtn">⏹ End game</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="glass card mt" id="hostLbCard"><b>🏅 Leaderboard</b><div class="list" id="lb"></div></div>
+  </div>
+</div>
+<div id="footer"></div>
+<script src="/shared.js"></script>
+<script src="/intro.js"></script>
+<script>
+addAurora();
+document.getElementById('brand').innerHTML = BRAND_BAR;
+document.getElementById('footer').innerHTML = BRAND_FOOTER;
+let host = JSON.parse(localStorage.getItem('wyr_host') || 'null');
+let lastQuestion=null, sel={gameType:'wyr',scoringMode:'points'};
+function wireSeg(id,key){ document.querySelectorAll('#'+id+' button').forEach(b=>{ b.onclick=()=>{ document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); sel[key]=b.dataset.v; }; }); }
+wireSeg('typeSeg','gameType'); wireSeg('scoreSeg','scoringMode');
+function readSetup(){ return { gameType:sel.gameType, scoringMode:sel.scoringMode, timerMs:parseInt(document.getElementById('timer').value,10) }; }
+let setupMode='create';
+function openSetup(mode){ setupMode=mode; document.getElementById('console').classList.add('hide'); document.getElementById('setup').classList.remove('hide'); document.getElementById('setupTitle').textContent=mode==='reconfigure'?'Start a new game':'Set up your game'; document.getElementById('createBtn').textContent=mode==='reconfigure'?'Start new game →':'Create room →'; document.getElementById('cancelSetup').classList.toggle('hide', mode!=='reconfigure'); }
+document.getElementById('cancelSetup').onclick=()=>{ document.getElementById('setup').classList.add('hide'); document.getElementById('console').classList.remove('hide'); };
+document.getElementById('createBtn').onclick=async()=>{
+  const s=readSetup(); const btn=document.getElementById('createBtn'); btn.disabled=true; const old=btn.textContent; btn.textContent='Working…';
+  if(setupMode==='reconfigure'&&host){ await API.post('/api/host',{roomCode:host.room,hostToken:host.hostToken,action:'reconfigure',...s}); host={...host,...s}; localStorage.setItem('wyr_host',JSON.stringify(host)); document.getElementById('setup').classList.add('hide'); document.getElementById('console').classList.remove('hide'); }
+  else{ const res=await API.post('/api/room/create',s); if(res.error){btn.disabled=false;btn.textContent=old;return alert(res.error);} host={room:res.roomCode,hostToken:res.hostToken,...s}; localStorage.setItem('wyr_host',JSON.stringify(host)); boot(); }
+  btn.disabled=false; btn.textContent=old;
+};
+function act(action,extra){ return API.post('/api/host',{roomCode:host.room,hostToken:host.hostToken,action,...(extra||{})}); }
+document.getElementById('startBtn').onclick=()=>act('start');
+document.getElementById('nextBtn').onclick=()=>act('next');
+document.getElementById('lockBtn').onclick=()=>act('lock');
+document.getElementById('restartBtn').onclick=()=>{ if(confirm('Restart with the SAME settings? Scores reset to 0; players stay joined.'))act('restart'); };
+document.getElementById('endBtn').onclick=()=>{ if(confirm('End the game and choose new settings (game type / leaderboard)?')){act('end');openSetup('reconfigure');} };
+function showBanner(html){ const b=document.getElementById('banner'); b.innerHTML=html; b.classList.remove('hide'); }
+function renderLB(list){ document.getElementById('lb').innerHTML=leaderboardRowsHTML(list); }
+function applyLbVisibility(){ document.getElementById('hostLbCard').classList.toggle('hide',(host.scoringMode||'points')!=='points'); }
+async function boot(){
+  if(!host)return;
+  const check=await API.post('/api/room/verify',{roomCode:host.room,hostToken:host.hostToken});
+  if(!check.ok){ const res=await API.post('/api/room/create',{gameType:host.gameType,scoringMode:host.scoringMode,timerMs:host.timerMs}); if(res.error){openSetup('create');return;} host={room:res.roomCode,hostToken:res.hostToken,gameType:host.gameType,scoringMode:host.scoringMode,timerMs:host.timerMs}; localStorage.setItem('wyr_host',JSON.stringify(host)); showBanner('⚠️ Your previous room expired (server restarted), so a fresh room <b>'+host.room+'</b> was created. Share this new code / QR.'); }
+  else if(check.settings){ host={...host,...check.settings}; }
+  document.getElementById('setup').classList.add('hide'); document.getElementById('console').classList.remove('hide');
+  const joinUrl=location.origin+'/?room='+host.room;
+  document.getElementById('code').textContent=host.room; document.getElementById('joinUrl').textContent=joinUrl;
+  document.getElementById('qr').src=qrImageURL(joinUrl,200); document.getElementById('screenLink').href='/screen?room='+host.room;
+  applyLbVisibility();
+  connectSSE({ room:host.room, role:'host', handlers:{
+    sync(s){ paint(s); },
+    'lobby:update'(d){ document.getElementById('pcount').textContent=d.playerCount; },
+    'question:show'(q){ lastQuestion=q; paintQuestion(q); },
+    'vote:progress'(d){ document.getElementById('votedLbl').textContent=d.votedCount+' of '+d.totalCount+' voted'; },
+    'votes:locked'(){ setStatusChip('LOCKED'); },
+    'results:reveal'(d){ paintResults({...d, options:lastQuestion&&lastQuestion.options}); },
+    'leaderboard:update'(d){ renderLB(d.top); },
+    'game:over'(d){ setStatusChip('GAME_OVER'); renderLB(d.leaderboard); document.getElementById('hcat').textContent=''; document.getElementById('hqtext').textContent='🎬 Game over! Pick new settings, restart, or start again.'; document.getElementById('hopts').style.display='none'; document.getElementById('hres').innerHTML=''; document.getElementById('startBtn').textContent='▶ Start'; },
+    'game:restart'(d){ if(d){host.gameType=d.gameType||host.gameType;host.scoringMode=d.scoringMode||host.scoringMode;localStorage.setItem('wyr_host',JSON.stringify(host));applyLbVisibility();} document.getElementById('hqtext').textContent='🔁 New round ready! Waiting to start…'; document.getElementById('hopts').style.display='none'; document.getElementById('hres').innerHTML=''; document.getElementById('votedLbl').textContent=''; renderLB([]); },
+  }});
+}
+function setStatusChip(status){
+  const chip=document.getElementById('statusChip');
+  const map={LOBBY:['s-lobby','LOBBY'],QUESTION_ACTIVE:['s-active','LIVE'],LOCKED:['s-locked','LOCKED'],RESULTS:['s-results','RESULTS'],GAME_OVER:['s-over','GAME OVER']};
+  const [cls,label]=map[status]||['s-lobby',status];
+  chip.className='statuschip '+cls; document.getElementById('statusLbl').textContent=label;
+}
+function setTypeChip(gt){ const c=document.getElementById('typeChip'); c.className='typechip'+(gt==='quiz'?' quiz':''); c.textContent=gt==='quiz'?'🧠 Quiz':'🎲 WYR'; }
+function setProgress(n,total){
+  const bar=document.getElementById('hpBar'); const pct=(n>0&&total>0)?Math.round((n/total)*100):0;
+  bar.style.width=pct+'%';
+  document.getElementById('progressLbl').textContent=n>0?('Question '+n+' of '+total):'Not started';
+}
+function paint(s){
+  if(s.gameType){host.gameType=s.gameType;setTypeChip(s.gameType);}
+  if(s.scoringMode){host.scoringMode=s.scoringMode;applyLbVisibility();}
+  document.getElementById('pcount').textContent=s.playerCount; setStatusChip(s.status);
+  setProgress(s.questionNumber, s.totalQuestions);
+  document.getElementById('startBtn').textContent=(s.status==='LOBBY'||s.status==='GAME_OVER')?'▶ Start':'▶ Resume';
+  if(s.question)lastQuestion=s.question;
+  if(s.status==='QUESTION_ACTIVE'&&s.question)paintQuestion({...s.question,questionNumber:s.questionNumber,totalQuestions:s.totalQuestions});
+  else if(s.status==='RESULTS'&&s.results){paintQuestionText(s.question);paintResults({...s.results,gameType:s.gameType,options:s.question&&s.question.options});}
+  else if(s.status==='LOBBY'){document.getElementById('hqtext').textContent='Waiting to start…';document.getElementById('hopts').style.display='none';document.getElementById('hres').innerHTML='';}
+  renderLB(s.leaderboard);
+}
+function paintQuestionText(q){ if(!q)return; document.getElementById('hcat').textContent=q.category||''; document.getElementById('hqtext').textContent=q.prompt||'Would you rather…'; const wrap=document.getElementById('hopts'); wrap.style.display='grid'; wrap.className='options n'+(q.options||[]).length; wrap.innerHTML=(q.options||[]).map((t,i)=>`<div class="opt" data-i="${i}" style="min-height:72px"><span class="tag">${OPT_LETTERS[i]}</span><span class="opt-text" style="font-size:13px">${esc(t)}</span></div>`).join(''); }
+function paintQuestion(q){ setStatusChip('QUESTION_ACTIVE'); if(q.questionNumber)setProgress(q.questionNumber,q.totalQuestions); paintQuestionText(q); document.getElementById('hres').innerHTML=''; document.getElementById('votedLbl').textContent='0 voted'; }
+function paintResults(d){ setStatusChip('RESULTS'); const opts=d.options||[]; const correct=(d.gameType==='quiz')?d.correct:null; const row=document.getElementById('hres'); row.innerHTML=(d.percents||[]).map((pct,i)=>resultBarHTML(opts[i]||'',i,pct,(d.counts||[])[i]||0,{correct,winners:d.winners})).join(''); animateResultBars(row); document.getElementById('votedLbl').textContent=(d.total||0)+' votes'; }
+if(host)boot();
+</script>
+</body>
+</html>

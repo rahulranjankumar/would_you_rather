@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Join — Accenture × Currys Fun Friday</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body data-intro="always">
+<div id="brand"></div>
+<div class="wrap center">
+  <div class="glass card pad-lg stage-in" style="max-width:440px;width:100%">
+    <div class="pill">🎉 Fun Friday · Currys team</div>
+    <h1>Let's Play!</h1>
+    <div class="sub">Would You Rather &amp; Quiz. First, what should we call you?</div>
+    <label>Your name</label>
+    <input id="name" autocomplete="off" placeholder="Type your name…" maxlength="20" autofocus>
+    <div id="codeWrap">
+      <label>Room code <span class="muted">(shown on the big screen)</span></label>
+      <input id="code" autocomplete="off" autocapitalize="characters" placeholder="e.g. AB12C" maxlength="5"
+             style="text-transform:uppercase;letter-spacing:6px;text-align:center;font-weight:800;font-size:22px">
+    </div>
+    <div id="err" class="sub hide" style="color:#ff9a9a;margin:12px 0 0"></div>
+    <button class="btn mt2" id="joinBtn">Let's go →</button>
+    <div class="mt2 muted" style="font-size:13px">Are you the host? <a href="/host" style="color:#d9b6ff">Open the Host Console</a></div>
+  </div>
+</div>
+<div id="footer"></div>
+<script src="/shared.js"></script>
+<script src="/intro.js"></script>
+<script>
+  addAurora();
+  document.getElementById('brand').innerHTML = BRAND_BAR;
+  document.getElementById('footer').innerHTML = BRAND_FOOTER;
+  const params = new URLSearchParams(location.search);
+  const presetRoom = (params.get('room') || '').toUpperCase();
+  if (presetRoom) { document.getElementById('code').value = presetRoom; document.getElementById('codeWrap').classList.add('hide'); }
+  const err = (m) => { const e = document.getElementById('err'); e.textContent = m; e.classList.remove('hide'); };
+  const clearErr = () => document.getElementById('err').classList.add('hide');
+  async function join() {
+    clearErr();
+    const name = document.getElementById('name').value.trim();
+    let roomCode = (document.getElementById('code').value.trim() || presetRoom).toUpperCase();
+    if (!name) { document.getElementById('name').focus(); return err('Please enter your name to continue.'); }
+    if (roomCode.length < 4) { document.getElementById('codeWrap').classList.remove('hide'); return err('Enter the room code shown on the big screen.'); }
+    const btn = document.getElementById('joinBtn'); btn.disabled = true; btn.textContent = 'Joining…';
+    const res = await API.post('/api/room/join', { roomCode, name });
+    if (res.error) { btn.disabled = false; btn.textContent = "Let's go →"; document.getElementById('codeWrap').classList.remove('hide'); return err(res.error); }
+    localStorage.setItem('wyr', JSON.stringify({ room: roomCode, playerId: res.playerId, name: res.name }));
+    location.href = '/play';
+  }
+  document.getElementById('joinBtn').onclick = join;
+  document.getElementById('name').addEventListener('input', clearErr);
+  document.getElementById('name').addEventListener('keydown', (e) => { if (e.key === 'Enter') join(); });
+  document.getElementById('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') join(); });
+</script>
+</body>
+</html>

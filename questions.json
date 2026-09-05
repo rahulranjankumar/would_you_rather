@@ -1,0 +1,22 @@
+[
+  { "category": "Would You Rather", "prompt": "Would you rather\u2026", "options": ["Get a surprise \"Great work!\" email from the Currys client at 6 PM Friday (and feel amazing all weekend) \ud83c\udf1f", "Have your entire Monday calendar magically clear with zero meetings \ud83d\uddd3\ufe0f"] },
+  { "category": "Would You Rather", "prompt": "Would you rather\u2026", "options": ["Be known as the person who always fixes production issues (legend status, but 2 AM calls) \ud83e\uddb8", "Be known as the person who never breaks production (invisible hero, zero glory) \ud83e\udd77"] },
+  { "category": "Would You Rather", "prompt": "Would you rather\u2026", "options": ["Have your code deployed to production on Black Friday (high stakes, high visibility) \ud83d\udd25", "Have your code deployed on a quiet Tuesday in February (safe, but nobody notices) \ud83d\ude34"] },
+  { "category": "Would You Rather", "prompt": "Would you rather\u2026", "options": ["Attend a 3-hour in-person team offsite with amazing food but mandatory fun activities \ud83c\udf7d\ufe0f", "Attend a 30-minute virtual Fun Friday from your couch in pajamas \ud83d\udecb\ufe0f"] },
+  { "category": "Would You Rather", "prompt": "Would you rather\u2026", "options": ["Get a \u20b910,000 bonus but you must present your \"success story\" to 500 Accenture people \ud83c\udfa4", "Get a \u20b95,000 bonus silently deposited with zero recognition and zero presentation \ud83e\udd2b"] },
+  { "category": "Townhall Poll", "prompt": "Which Townhall segment do you look forward to the most?", "options": ["Leadership Updates", "Team Achievements", "Business News", "Fun Activities"] },
+  { "category": "Team Culture", "prompt": "What best represents the Currys team culture?", "options": ["Collaboration", "Innovation", "Customer Focus", "Team Spirit"] },
+  { "category": "Team Culture", "prompt": "If Currys had a team slogan, which would you choose?", "options": ["One Team, One Goal", "Better Together", "Driving Success Daily", "Powering Possibilities"] },
+  { "category": "Team Poll", "prompt": "Which team activity should PPA organize next?", "options": ["Virtual Quiz", "Talent Showcase", "Team Lunch/Dinner", "Sports Challenge"] },
+  { "category": "Townhall Poll", "prompt": "What would make our next Townhall even better?", "options": ["More Games", "More Team Spotlights", "Live Q&A", "More Recognition Moments"] },
+  { "category": "Team Culture", "prompt": "Complete the sentence: \"The best thing about working in Currys is\u2026\"", "options": ["The People", "The Culture", "The Opportunities", "The Team Spirit"] },
+  { "category": "Icebreaker", "prompt": "Would you rather\u2026", "options": ["Unlimited free coffee \u2615", "Unlimited free snacks \ud83c\udf6a"] },
+  { "category": "Icebreaker", "prompt": "Would you rather\u2026", "options": ["Always work from home \ud83c\udfe0", "Always work from office \ud83c\udfe2"] },
+  { "category": "Office Life", "prompt": "Would you rather\u2026", "options": ["No meetings, only emails \ud83d\udce7", "No emails, only meetings \ud83d\udcac"] },
+  { "category": "Tech", "prompt": "Would you rather\u2026", "options": ["Dark mode \ud83c\udf19", "Light mode \u2600\ufe0f"] },
+  { "category": "Tech", "prompt": "Would you rather\u2026", "options": ["Code with no bugs but no Google", "Code with Google but bugs everywhere \ud83d\udd0d"] },
+  { "category": "Retail & Tech", "prompt": "Would you rather\u2026", "options": ["The latest flagship laptop \ud83d\udcbb", "The biggest 4K TV \ud83d\udcfa"] },
+  { "category": "Fun", "prompt": "Would you rather\u2026", "options": ["Be able to teleport \ud83c\udf00", "Be able to fly \ud83e\udd85"] },
+  { "category": "Fun", "prompt": "Would you rather\u2026", "options": ["Pizza for every meal \ud83c\udf55", "Biryani for every meal \ud83c\udf5b"] },
+  { "category": "Fun", "prompt": "Would you rather\u2026", "options": ["Winter all year \u2744\ufe0f", "Summer all year \ud83c\udf1e"] }
+]

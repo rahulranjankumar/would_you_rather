@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Currys">
+  <!-- Simple brand-style representation for internal Fun Friday use:
+       a purple disc with the "currys" wordmark. Replace with the OFFICIAL
+       approved Currys asset for anything external (see BRANDING.md). -->
+  <circle cx="60" cy="60" r="60" fill="#4C1D95"/>
+  <text x="60" y="60" text-anchor="middle" dominant-baseline="central"
+        font-family="'Trebuchet MS','Segoe UI',Arial,sans-serif"
+        font-size="30" font-weight="700" letter-spacing="-1" fill="#ffffff">currys</text>
+</svg>
