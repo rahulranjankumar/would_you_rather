@@ -1,0 +1,6 @@
+[
+  { "round":"Round 1: The Daily Grind","category":"Office Life","prompt":"Would you rather…",
+    "options":["Option A text here","Option B text here"] },
+  { "category":"Tech","prompt":"What does 'SQL' stand for?",
+    "options":["Structured Query Language","Simple Question Language","System Query Layer"],"correct":0 }
+]
