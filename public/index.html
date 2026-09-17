@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Join — Accenture × Currys Fun Friday</title><link rel="stylesheet" href="/app.css">
+<style>
+/* Split stage. The form column is ALWAYS capped at --measure so it can never stretch,
+   whether the robot loads or collapses. */
+.stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:0;width:min(940px,100%);overflow:hidden}
+.stage.no-robot{grid-template-columns:minmax(0,1fr);width:min(452px,100%)}
+.stage.no-robot .robot-col{display:none}
+@media(max-width:840px){
+  .stage{grid-template-columns:minmax(0,1fr);width:min(452px,100%)}
+  .stage .robot-col{display:none}
+}
+.form-col{padding:34px 32px;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:560px){.form-col{padding:26px 22px}}
+.form-inner{width:100%;max-width:var(--measure);margin:0 auto}
+.robot-col{position:relative;min-height:420px;border-left:1px solid var(--line)}
+.err{margin-top:12px;font-size:13px;color:#FF9E9E;display:flex;gap:7px;align-items:flex-start;line-height:1.45}
+.err::before{content:"";flex:0 0 auto;width:4px;height:4px;border-radius:50%;background:currentColor;margin-top:7px}
+</style></head>
+<body data-intro="always">
+<div id="brand"></div>
+<div class="wrap center">
+  <div class="panel stage fade-in" id="stage" data-robot-host>
+    <div class="form-col">
+      <div class="form-inner">
+        <span class="chip-top"><span class="dot"></span>Fun Friday</span>
+        <h1 class="display" style="margin:16px 0 10px">Would You<br>Rather<span style="color:var(--accent-hi)">.</span></h1>
+        <p class="lede">A live game with the whole team. Two options, twenty seconds, no wrong answers.</p>
+        <div class="rule"></div>
+        <div class="field" style="margin-top:0">
+          <div class="field-head"><span class="step-n">1</span><span class="field-label">Your name</span></div>
+          <input id="name" autocomplete="off" placeholder="Type your name" maxlength="20" autofocus>
+        </div>
+        <div class="field" id="codeWrap">
+          <div class="field-head"><span class="step-n">2</span><span class="field-label">Room code</span>
+            <span class="field-hint">on the big screen</span></div>
+          <input id="code" class="code-input" autocomplete="off" autocapitalize="characters" placeholder="ABC12" maxlength="5">
+        </div>
+        <div id="err" class="err hide"></div>
+        <button class="btn" id="joinBtn" style="margin-top:20px">Join the game</button>
+        <div class="meta-row">
+          <span class="kbd"><b>↵</b> to join</span>
+          <span class="muted" style="font-size:12px">Hosting? <a href="/host" class="link">Open console</a></span>
+        </div>
+      </div>
+    </div>
+    <div class="robot-col" id="robot"></div>
+  </div>
+</div>
+<script src="/shared.js"></script><script src="/intro.js"></script>
+<script>
+addAura();
+document.getElementById('brand').innerHTML=BRAND_BAR;
+mountRobot(document.getElementById('robot'));
+const pre=(new URLSearchParams(location.search).get('room')||'').toUpperCase();
+if(pre){document.getElementById('code').value=pre;document.getElementById('codeWrap').classList.add('hide');}
+const errEl=document.getElementById('err');
+const err=m=>{errEl.textContent=m;errEl.classList.remove('hide');};
+const clearErr=()=>errEl.classList.add('hide');
+async function join(){
+  clearErr();
+  const name=document.getElementById('name').value.trim();
+  const code=(document.getElementById('code').value.trim()||pre).toUpperCase();
+  if(!name){document.getElementById('name').focus();return err('Enter your name to continue.');}
+  if(code.length<4){document.getElementById('codeWrap').classList.remove('hide');
+    document.getElementById('code').focus();return err('Enter the 5-character room code shown on the big screen.');}
+  const b=document.getElementById('joinBtn');b.disabled=true;b.textContent='Joining…';
+  const r=await API.post('/api/room/join',{roomCode:code,name});
+  if(r.error){b.disabled=false;b.textContent='Join the game';document.getElementById('codeWrap').classList.remove('hide');return err(r.error);}
+  localStorage.setItem('wyr',JSON.stringify({room:code,playerId:r.playerId,name:r.name}));
+  location.href='/play';
+}
+document.getElementById('joinBtn').onclick=join;
+document.getElementById('name').addEventListener('input',clearErr);
+document.getElementById('name').addEventListener('keydown',e=>{if(e.key==='Enter')join();});
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')join();});
+</script></body></html>

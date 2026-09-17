@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Big Screen — Fun Friday</title><link rel="stylesheet" href="/app.css">
+<style>
+body{overflow:hidden}
+.stage{height:100dvh;display:flex;flex-direction:column}
+.stage .body{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 26px;min-height:0}
+.top{display:flex;justify-content:space-between;align-items:center;padding:10px 26px;gap:14px;border-bottom:1px solid var(--line)}
+.huge{font-size:clamp(22px,3.5vw,44px);font-weight:750;line-height:1.24;letter-spacing:-.03em;max-width:1120px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:42px;align-items:center;width:min(1180px,96vw)}
+.hero.no-robot{grid-template-columns:minmax(0,460px);justify-content:center}
+.hero.no-robot .robot-col{display:none}
+@media(max-width:1000px){.hero{grid-template-columns:minmax(0,460px);justify-content:center}.hero .robot-col{display:none}}
+.robot-col{position:relative;height:min(56vh,520px);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.bigopts{display:grid;gap:16px;width:min(1120px,94vw)}
+.bigopts.n2{grid-template-columns:1fr 1fr}.bigopts.n3{grid-template-columns:repeat(3,1fr)}.bigopts.n4{grid-template-columns:1fr 1fr}
+@media(max-width:860px){.bigopts.n2,.bigopts.n3,.bigopts.n4{grid-template-columns:1fr}}
+.bigopt{position:relative;border-radius:var(--r-lg);min-height:19vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;padding:22px;overflow:hidden;line-height:1.32;text-align:center;
+  font-size:clamp(14px,1.7vw,25px);font-weight:650;letter-spacing:-.02em;
+  background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--shadow);animation:optIn .4s var(--ease) both}
+.bigopt.reading{opacity:.3;filter:saturate(.35)}
+.bigopt::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.85;
+  background:radial-gradient(122% 78% at 50% -12%,var(--w,rgba(176,38,255,.42)),transparent 66%)}
+.bigopt[data-i="0"]{--w:rgba(176,38,255,.44)}.bigopt[data-i="1"]{--w:rgba(34,240,220,.32)}
+.bigopt[data-i="2"]{--w:rgba(255,94,224,.32)}.bigopt[data-i="3"]{--w:rgba(255,185,48,.3)}
+.bigopt .lt{position:relative;z-index:1;width:clamp(30px,2.8vw,42px);height:clamp(30px,2.8vw,42px);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:clamp(14px,1.5vw,20px);font-weight:800;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#E8DCFF}
+.bigopt .bt{position:relative;z-index:1;word-break:break-word}
+.bigopt .live{position:absolute;left:0;bottom:0;height:3px;width:0;transition:width .6s var(--ease);z-index:1}
+.bigopt[data-i="0"] .live{background:var(--accent-hi)}.bigopt[data-i="1"] .live{background:var(--teal)}
+.bigopt[data-i="2"] .live{background:#FF5EE0}.bigopt[data-i="3"] .live{background:#FFB930}
+.ringw{position:relative;width:54px;height:54px;flex:0 0 auto}
+.ringw svg{transform:rotate(-90deg)}.ringw .tr{stroke:rgba(255,255,255,.1)}
+.ringw .pr{stroke:var(--accent-hi);stroke-linecap:round;transition:stroke-dashoffset .2s linear;filter:drop-shadow(0 0 6px rgba(204,102,255,.8))}
+.ringw.read .pr{stroke:var(--gold);filter:drop-shadow(0 0 6px rgba(255,209,92,.8))}
+.ringw .num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;font-variant-numeric:tabular-nums}
+.readbig{font-size:clamp(54px,13vw,120px);font-weight:800;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums;
+  color:var(--gold);text-shadow:0 0 50px rgba(255,209,92,.4);animation:rpop .4s var(--spring)}
+.bigbars{display:flex;flex-direction:column;gap:12px;width:min(1120px,94vw)}
+.bbar{position:relative;height:clamp(54px,9.5vh,80px);border-radius:var(--r);overflow:hidden;background:rgba(18,10,36,.55);border:1px solid var(--line-2)}
+.bbar .bf{position:absolute;left:0;top:0;bottom:0;width:0;transition:width .85s var(--ease)}
+.bf.i0{background:linear-gradient(90deg,#7A1FD0,#C13BFF)}.bf.i1{background:linear-gradient(90deg,#0A9E92,#22F0DC)}
+.bf.i2{background:linear-gradient(90deg,#C2249E,#FF5EE0)}.bf.i3{background:linear-gradient(90deg,#C4830F,#FFB930)}
+.bbar .bc{position:relative;z-index:2;display:flex;align-items:center;gap:16px;height:100%;padding:0 22px}
+.bbar .blt{flex:0 0 auto;width:clamp(28px,2.4vw,38px);height:clamp(28px,2.4vw,38px);border-radius:9px;display:flex;
+  align-items:center;justify-content:center;font-weight:800;font-size:clamp(13px,1.4vw,18px);
+  background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.2)}
+.bbar .bl{flex:1;min-width:0;text-align:left;font-size:clamp(13px,1.45vw,21px);font-weight:600;overflow-wrap:anywhere;
+  line-height:1.34;letter-spacing:-.02em;text-shadow:0 1px 5px rgba(0,0,0,.5)}
+.bbar .bp{flex:0 0 auto;font-size:clamp(17px,2vw,30px);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.03em;text-shadow:0 1px 5px rgba(0,0,0,.5)}
+.bbar.correct{border-color:var(--gold);box-shadow:0 0 0 1px rgba(255,209,92,.45),0 0 30px -10px rgba(255,209,92,.7)}
+.bbar.correct .blt{background:var(--gold);color:#2A1C00;border-color:transparent}
+.qrl{background:#fff;padding:12px;border-radius:var(--r);display:inline-block;line-height:0;box-shadow:0 0 40px -10px rgba(176,38,255,.7)}
+.qrl img{display:block;width:clamp(130px,13vw,166px);height:auto}
+.lbl .row{font-size:clamp(14px,1.5vw,21px);padding:12px 17px}
+.joinrow{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+</style></head>
+<body data-intro="always">
+<div class="stage">
+  <div id="brand"></div>
+  <div class="top">
+    <span class="qcategory" id="cat">Ready</span>
+    <div class="ringw" id="ringw" style="display:none">
+      <svg width="54" height="54" viewBox="0 0 54 54">
+        <circle class="tr" cx="27" cy="27" r="23" fill="none" stroke-width="4"/>
+        <circle class="pr" id="ring" cx="27" cy="27" r="23" fill="none" stroke-width="4" stroke-dasharray="144.5" stroke-dashoffset="0"/></svg>
+      <div class="num" id="ringNum"></div></div>
+    <span class="badge count">👥 <b class="mono-num" id="pcount">0</b></span>
+  </div>
+  <div class="body">
+    <div id="lobby" style="width:100%;display:flex;justify-content:center">
+      <div class="hero" id="heroWrap" data-robot-host>
+        <div class="robot-col" id="robot"></div>
+        <div>
+          <span class="chip-top"><span class="dot"></span>Fun Friday</span>
+          <h1 class="display" id="lobbyTitle" style="margin:18px 0 10px">Would You<br>Rather<span style="color:var(--accent-hi)">.</span></h1>
+          <p class="lede" style="margin-bottom:26px">Scan to join from your phone.</p>
+          <div class="joinrow">
+            <div class="qrl"><img id="qr" alt="Scan to join"></div>
+            <div>
+              <div class="eyebrow">Room code</div>
+              <div class="roomcode" id="code" style="margin:4px 0 14px">—</div>
+              <div class="eyebrow">Or visit</div>
+              <div id="joinurl" style="font-size:15px;font-weight:600;color:var(--accent-soft);margin-top:3px"></div>
+            </div>
+          </div>
+          <div class="rule" style="margin:24px 0 16px"></div>
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span class="stat-xl mono-num" id="lc" style="font-size:clamp(30px,4vw,44px)">0</span>
+            <span class="eyebrow">players joined</span></div>
+        </div>
+      </div>
+    </div>
+    <div id="qview" class="hide" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:22px">
+      <div class="huge" id="qtext" style="text-align:center">…</div>
+      <div id="readWrap" class="hide" style="text-align:center">
+        <div class="eyebrow">Get ready</div><div class="readbig mono-num" id="readBig">5</div></div>
+      <div class="bigopts" id="bigopts"></div>
+      <div class="eyebrow mono-num" id="vc">0 of 0 voted</div></div>
+    <div id="locked" class="hide" style="text-align:center">
+      <div class="huge">Votes closed</div><p class="lede" style="margin-top:8px">Revealing…</p></div>
+    <div id="results" class="hide fade-in" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:20px">
+      <div class="huge" id="rtext" style="text-align:center">The room has spoken</div>
+      <div class="bigbars" id="bb"></div></div>
+    <div id="over" class="hide fade-in" style="width:min(760px,94vw)">
+      <div class="huge" style="text-align:center;margin-bottom:20px">Final standings</div>
+      <div class="list lbl" id="lb"></div></div>
+  </div>
+</div>
+<script src="/shared.js"></script><script src="/intro.js"></script>
+<script>
+addAura();
+document.getElementById('brand').innerHTML=BRAND_BAR;
+const room=(new URLSearchParams(location.search).get('room')||'').toUpperCase();
+if(!room)document.body.innerHTML='<div class="wrap center"><h1 class="display">Add ?room=CODE to the URL</h1></div>';
+let gameType='wyr',opts=[],startedAt=0,answerAt=0,endAt=0,phase='';
+const views=['lobby','qview','locked','results','over'];
+const show=id=>views.forEach(v=>{const e=document.getElementById(v);if(e)e.classList.toggle('hide',v!==id);});
+const url=location.origin+'/?room='+room;
+document.getElementById('code').textContent=room;
+document.getElementById('joinurl').textContent=location.host;
+document.getElementById('qr').src=qrURL(url,200);
+mountRobot(document.getElementById('robot'));
+const RL=144.5;
+const tick=ticker(()=>{
+  const now=Date.now(),w=document.getElementById('ringw');
+  if(!answerAt){w.style.display='none';return false;}
+  w.style.display='block';
+  if(now<answerAt){
+    if(phase!=='read'){phase='read';document.getElementById('readWrap').classList.remove('hide');
+      document.querySelectorAll('#bigopts .bigopt').forEach(e=>e.classList.add('reading'));w.classList.add('read');}
+    const left=answerAt-now,total=answerAt-startedAt||1;
+    document.getElementById('readBig').textContent=Math.ceil(left/1000);
+    document.getElementById('ringNum').textContent=Math.ceil(left/1000);
+    document.getElementById('ring').style.strokeDashoffset=(RL*(1-left/total)).toFixed(1);
+    return true;}
+  if(phase!=='answer'){phase='answer';document.getElementById('readWrap').classList.add('hide');
+    document.querySelectorAll('#bigopts .bigopt').forEach(e=>e.classList.remove('reading'));w.classList.remove('read');}
+  const left=endAt-now,total=endAt-answerAt||1,s=Math.ceil(left/1000);
+  document.getElementById('ringNum').textContent=s>0?s:'';
+  document.getElementById('ring').style.strokeDashoffset=(RL*(1-Math.max(0,left)/total)).toFixed(1);
+  return left>0;
+});
+const setLbl=()=>{document.getElementById('lobbyTitle').innerHTML=gameType==='quiz'?'Quiz<br>Time<span style="color:var(--accent-hi)">.</span>':'Would You<br>Rather<span style="color:var(--accent-hi)">.</span>';
+  document.getElementById('cat').textContent=gameType==='quiz'?'Quiz':'Would You Rather';};
+function renderQ(q){show('qview');opts=q.options||[];if(q.gameType)gameType=q.gameType;phase='';
+  startedAt=q.startedAt||Date.now();answerAt=q.answerAt||startedAt;endAt=answerAt+(q.durationMs||20000);
+  document.getElementById('cat').textContent=(q.round||q.category||'')||(gameType==='quiz'?'Quiz':'Would You Rather');
+  document.getElementById('qtext').textContent=q.prompt||'Would you rather…';
+  const w=document.getElementById('bigopts');w.className='bigopts n'+opts.length;
+  w.innerHTML=opts.map((t,i)=>`<div class="bigopt" data-i="${i}"><span class="lt">${L[i]}</span><span class="bt">${esc(t)}</span><span class="live"></span></div>`).join('');
+  tick.start();}
+function live(c){const t=(c||[]).reduce((a,b)=>a+b,0)||1;
+  document.querySelectorAll('#bigopts .bigopt').forEach(e=>{const i=+e.dataset.i;e.querySelector('.live').style.width=Math.round((c[i]||0)/t*100)+'%';});}
+function renderR(d){show('results');tick.stop();answerAt=0;document.getElementById('ringw').style.display='none';
+  const quiz=(d.gameType||gameType)==='quiz',c=quiz?d.correct:null;
+  document.getElementById('rtext').textContent=c!=null?'The correct answer':'The room has spoken';
+  const box=document.getElementById('bb');
+  box.innerHTML=(d.percents||[]).map((p,i)=>{const isC=c!=null&&c===i,isW=(d.winners||[]).includes(i);const m=c!=null?(isC?' ✓':''):(isW?' ▲':'');
+    return `<div class="bbar${isC?' correct':''}" data-p="${p}"><div class="bf i${i}" style="width:0%"></div><div class="bc"><span class="blt">${L[i]}</span><span class="bl">${esc(opts[i]||'')}${m}</span><span class="bp">0%</span></div></div>`;}).join('');
+  box.querySelectorAll('.bbar').forEach((b,i)=>{const p=+b.getAttribute('data-p')||0;
+    setTimeout(()=>{b.querySelector('.bf').style.width=p+'%';countUp(b.querySelector('.bp'),p,850);},100+i*75);});
+  shimmer(46);}
+connectSSE({room,role:'screen',handlers:{
+  sync(s){if(s.gameType){gameType=s.gameType;setLbl();}
+    document.getElementById('pcount').textContent=s.playerCount;document.getElementById('lc').textContent=s.playerCount;
+    if(s.status==='LOBBY'){tick.stop();answerAt=0;show('lobby');}
+    else if(s.status==='QUESTION_ACTIVE'&&s.question)renderQ({...s.question,gameType:s.gameType,startedAt:s.timer&&s.timer.startedAt,answerAt:s.timer&&s.timer.answerAt,durationMs:s.timer&&s.timer.durationMs});
+    else if(s.status==='LOCKED'){tick.stop();answerAt=0;show('locked');}
+    else if(s.status==='RESULTS'&&s.results){if(s.question)opts=s.question.options||opts;renderR({...s.results,gameType:s.gameType});}
+    else if(s.status==='GAME_OVER'){tick.stop();answerAt=0;show('over');document.getElementById('lb').innerHTML=lbRows(s.leaderboard,gameType==='quiz');}},
+  'lobby:update'(d){document.getElementById('pcount').textContent=d.playerCount;document.getElementById('lc').textContent=d.playerCount;},
+  'question:show'(q){renderQ(q);},
+  'vote:progress'(d){document.getElementById('vc').textContent=d.votedCount+' of '+d.totalCount+' voted';if(d.counts)live(d.counts);},
+  'votes:locked'(){tick.stop();answerAt=0;show('locked');},
+  'results:reveal'(d){renderR(d);},
+  'game:over'(d){tick.stop();answerAt=0;show('over');document.getElementById('lb').innerHTML=lbRows(d.leaderboard,gameType==='quiz');},
+  'game:restart'(d){if(d&&d.gameType){gameType=d.gameType;setLbl();}tick.stop();answerAt=0;show('lobby');},
+}});
+setLbl();
+</script></body></html>

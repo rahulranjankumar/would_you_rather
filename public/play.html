@@ -1,0 +1,207 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Playing — Fun Friday</title><link rel="stylesheet" href="/app.css">
+<style>
+.shell{width:min(520px,100%);margin:0 auto}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 2px 14px}
+.whoami{display:flex;align-items:center;gap:8px;min-width:0}
+.whoami .av{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:11.5px;font-weight:800;background:rgba(176,38,255,.2);border:1px solid rgba(176,38,255,.38);color:#E3CCFF}
+.whoami .nm{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.whoami .rm{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.qcount{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.centre{text-align:center;padding:18px 0}
+</style></head>
+<!-- LITE: no Spline, no grain, no ambient orbs. 600 phones must stay smooth. -->
+<body class="lite">
+<div id="brand"></div>
+<div class="wrap">
+ <div class="shell">
+  <div class="topbar">
+    <div class="whoami"><span class="av" id="av">–</span>
+      <div style="min-width:0"><div class="nm" id="nm">—</div><div class="rm" id="rm"></div></div></div>
+    <span class="badge count">★ <span id="score" class="mono-num">0</span></span>
+  </div>
+
+  <div id="lobby" class="panel pad centre fade-in">
+    <span class="chip-top" id="lobbyPill"><span class="dot"></span>You're in</span>
+    <h2 style="margin:16px 0 6px">Waiting for the host</h2>
+    <p class="lede" style="margin-bottom:22px">Keep this screen open — the first question lands here.</p>
+    <div class="stat-xl mono-num" id="lobbyCount">0</div>
+    <div class="eyebrow" style="margin-top:4px">players in the room</div>
+  </div>
+
+  <div id="qview" class="panel pad hide">
+    <div class="qhead"><span class="qcategory" id="qcat">—</span>
+      <span style="display:flex;align-items:center;gap:10px">
+        <span class="qcount" id="qcount"></span><span class="timer mono-num" id="qtimer"></span></span></div>
+    <div class="progress" id="qprogWrap"><div id="qprog"></div></div>
+    <div class="question" id="qtext">—</div>
+    <div class="readbox hide" id="readbox">
+      <div class="eyebrow">Read the question</div>
+      <div class="rnum mono-num" id="readNum">5</div>
+      <div class="rhint">Options unlock in a moment</div></div>
+    <div class="options" id="opts"></div>
+    <div class="swwrap" id="swwrap" style="display:none">
+      <span class="eyebrow">Your time</span>
+      <span class="stopwatch" id="sw">0.<span class="ms">000</span>s</span></div>
+    <button class="btn gold mt hide" id="lockBtn">Lock it in</button>
+    <p class="lede" id="hint" style="margin:12px 0 0;font-size:13px">Tap your choice.</p>
+  </div>
+
+  <div id="locked" class="panel pad centre hide">
+    <h2>Votes closed</h2><p class="lede" style="margin:6px 0 0">Counting the room…</p></div>
+
+  <div id="results" class="panel pad hide">
+    <span class="qcategory" id="rcat">The room says</span>
+    <div class="question" id="rtext" style="font-size:clamp(17px,3vw,22px);margin:10px 0 0">—</div>
+    <div class="resrow" id="resrow"></div>
+    <div class="centre" style="padding:16px 0 4px"><span class="badge" id="youBadge">—</span></div>
+    <div id="lbWrap"><div class="rule"></div><span class="eyebrow">Leaderboard</span><div class="list" id="lb"></div></div>
+  </div>
+
+  <div id="over" class="panel pad centre hide fade-in">
+    <span class="chip-top"><span class="dot"></span>Game over</span>
+    <h1 class="display" style="margin:16px 0 8px">Thanks for<br>playing</h1>
+    <div id="finalWrap"><div class="rule"></div>
+      <span class="eyebrow">Final standings</span>
+      <div class="list" id="lbFinal" style="text-align:left"></div>
+      <div class="badge win" style="margin-top:18px">Your score <b class="mono-num" id="finalScore">0</b></div></div>
+    <a class="btn ghost" id="repLink" style="margin-top:18px;display:block;text-align:center;text-decoration:none" target="_blank">View full report</a>
+  </div>
+ </div>
+</div>
+<script src="/shared.js"></script><script src="/intro.js"></script>
+<script>
+document.getElementById('brand').innerHTML=BRAND_BAR;
+const me=JSON.parse(localStorage.getItem('wyr')||'null');
+if(!me)location.href='/';
+document.getElementById('nm').textContent=me.name;
+document.getElementById('rm').textContent='ROOM '+me.room;
+document.getElementById('av').textContent=(me.name||'?').trim().charAt(0).toUpperCase();
+document.getElementById('repLink').href='/report?room='+me.room;
+
+let gameType='wyr',scoring='points',lockIn=false,myChoice=null,committed=false,opts=[];
+let startedAt=0,answerAt=0,endAt=0,myMs=null,phase='';
+const views=['lobby','qview','locked','results','over'];
+const show=id=>views.forEach(v=>{const e=document.getElementById(v);e.classList.toggle('hide',v!==id);
+  if(v===id){e.classList.remove('fade-in');void e.offsetWidth;e.classList.add('fade-in');}});
+const applyMode=()=>{document.getElementById('lbWrap').classList.toggle('hide',scoring!=='points');
+  document.getElementById('finalWrap').classList.toggle('hide',scoring!=='points');
+  document.getElementById('lobbyPill').innerHTML='<span class="dot"></span>'+(gameType==='quiz'?'Quiz — you\'re in':'Would You Rather — you\'re in');};
+
+// ONE rAF loop drives the reading countdown AND the answer stopwatch.
+const tick=ticker(()=>{
+  const now=Date.now();
+  if(now<answerAt){
+    if(phase!=='read'){phase='read';
+      document.getElementById('readbox').classList.remove('hide');
+      document.getElementById('swwrap').style.display='none';
+      document.getElementById('qprogWrap').classList.add('read');
+      document.querySelectorAll('#opts .opt').forEach(e=>e.classList.add('reading'));
+      document.getElementById('hint').textContent='Reading time — options unlock shortly.';}
+    const left=answerAt-now,total=answerAt-startedAt||1;
+    document.getElementById('readNum').textContent=Math.ceil(left/1000);
+    document.getElementById('qprog').style.width=Math.max(0,Math.min(100,left/total*100))+'%';
+    document.getElementById('qtimer').textContent='';
+    return true;}
+  if(phase!=='answer'){phase='answer';
+    document.getElementById('readbox').classList.add('hide');
+    document.getElementById('swwrap').style.display='flex';
+    document.getElementById('qprogWrap').classList.remove('read');
+    document.querySelectorAll('#opts .opt').forEach(e=>e.classList.remove('reading'));
+    document.getElementById('hint').textContent=lockIn?'Pick an option, then lock it in to score.':'Tap your choice — you can change it until voting closes.';}
+  const el=Date.now()-answerAt;
+  const showMs=(committed||(!lockIn&&myMs!=null))?myMs:el;
+  const s=Math.floor(showMs/1000),m=showMs%1000;
+  document.getElementById('sw').innerHTML=s+'.<span class="ms">'+String(m).padStart(3,'0')+'</span>s';
+  const left=endAt-Date.now(),sec=Math.ceil(left/1000);
+  const t=document.getElementById('qtimer');t.textContent=(sec>0?sec:0)+'s';t.classList.toggle('low',sec<=5);
+  document.getElementById('qprog').style.width=Math.max(0,Math.min(100,left/(endAt-answerAt||1)*100))+'%';
+  return left>0;
+});
+function renderQ(q){
+  show('qview');opts=q.options||[];if(q.gameType)gameType=q.gameType;if(q.lockIn!==undefined)lockIn=q.lockIn;
+  startedAt=q.startedAt||Date.now();answerAt=q.answerAt||startedAt;endAt=answerAt+(q.durationMs||20000);
+  myChoice=null;committed=false;myMs=null;phase='';
+  document.getElementById('qcat').textContent=q.round||q.category||'';
+  document.getElementById('qcount').textContent=q.questionNumber?String(q.questionNumber).padStart(2,'0')+' / '+String(q.totalQuestions).padStart(2,'0'):'';
+  document.getElementById('qtext').textContent=q.prompt||'Would you rather…';
+  const w=document.getElementById('opts');w.className='options n'+opts.length;
+  w.innerHTML=opts.map((t,i)=>optCard(t,i)).join('');
+  w.querySelectorAll('.opt').forEach(el=>{const i=+el.dataset.i;el.onclick=()=>vote(i);
+    el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();vote(i);}};ripple(el);});
+  const lb=document.getElementById('lockBtn');lb.classList.toggle('hide',!lockIn);lb.disabled=true;lb.textContent='Lock it in';
+  tick.start();
+}
+const mark=i=>document.querySelectorAll('#opts .opt').forEach(e=>{const k=+e.dataset.i;
+  e.classList.toggle('selected',k===i&&!committed);e.classList.toggle('committed',k===i&&committed);e.classList.toggle('dim',committed&&k!==i);});
+async function vote(i,lock){
+  if(committed)return;
+  if(Date.now()<answerAt)return;
+  if(i===myChoice&&!lock)return;
+  myChoice=i;mark(i);
+  if(!lockIn&&myMs==null)myMs=Date.now()-answerAt;
+  if(lockIn&&!lock){document.getElementById('lockBtn').disabled=false;
+    document.getElementById('hint').textContent='Picked '+L[i]+' — now lock it in to score.';}
+  const r=await API.post('/api/vote',{r:me.room,p:me.playerId,c:i,lock:!!lock});
+  if(r&&r.e){document.getElementById('hint').textContent=r.e;return;}
+  if(lock){committed=true;myMs=Date.now()-answerAt;mark(i);
+    const lb=document.getElementById('lockBtn');lb.textContent='Locked in';lb.disabled=true;
+    document.getElementById('hint').textContent='Locked '+L[i]+' at '+fmtMs(myMs)+'. Good luck.';}
+  else if(!lockIn)document.getElementById('hint').textContent='Your pick: '+L[i]+' — change any time before it closes.';
+}
+document.getElementById('lockBtn').onclick=()=>{if(myChoice!=null)vote(myChoice,true);};
+
+function renderRes(d){
+  show('results');tick.stop();
+  const quiz=(d.gameType||gameType)==='quiz',correct=quiz?d.correct:null;
+  document.getElementById('rcat').textContent=quiz?'Correct answer':'The room says';
+  document.getElementById('rtext').textContent=d.prompt||'Results';
+  const box=document.getElementById('resrow');
+  box.innerHTML=(d.percents||[]).map((p,i)=>resBar((d.options||opts)[i]||'',i,p,(d.counts||[])[i]||0,{correct,winners:d.winners})).join('');
+  animBars(box);
+  const b=document.getElementById('youBadge');
+  const scored=myChoice!=null&&(!lockIn||committed);
+  const t=myMs!=null?' · '+fmtMs(myMs):'';
+  if(quiz){
+    if(myChoice==null){b.className='badge';b.textContent='You didn\u2019t answer this one';}
+    else if(myChoice===correct){b.className='badge correct';b.textContent=(scored?'Correct':'Correct — but not locked in')+t;if(scored)shimmer(34);}
+    else{b.className='badge wrong';b.textContent='Not quite — the answer was '+L[correct]+t;}
+  }else{
+    if(myChoice==null){b.className='badge';b.textContent='You didn\u2019t vote this round';}
+    else if((d.winners||[]).includes(myChoice)){b.className='badge win';b.textContent='You went with the crowd'+t;if(scored)shimmer(30);}
+    else{b.className='badge';b.textContent='You went against the crowd'+t;}
+  }
+}
+const renderLB=(l,id)=>document.getElementById(id).innerHTML=lbRows(l,gameType==='quiz');
+
+connectSSE({room:me.room,role:'player',playerId:me.playerId,handlers:{
+  sync(s){
+    if(s.gameType)gameType=s.gameType;if(s.scoringMode)scoring=s.scoringMode;if(s.lockIn!==undefined)lockIn=s.lockIn;applyMode();
+    if(typeof s.yourScore==='number'){document.getElementById('score').textContent=s.yourScore;document.getElementById('finalScore').textContent=s.yourScore;}
+    if(s.status==='LOBBY'){tick.stop();show('lobby');document.getElementById('lobbyCount').textContent=s.playerCount;}
+    else if(s.status==='QUESTION_ACTIVE'&&s.question){
+      renderQ({...s.question,gameType:s.gameType,lockIn:s.lockIn,questionNumber:s.questionNumber,totalQuestions:s.totalQuestions,
+        startedAt:s.timer&&s.timer.startedAt,answerAt:s.timer&&s.timer.answerAt,durationMs:s.timer&&s.timer.durationMs});
+      if(s.hasVoted&&s.yourChoice!=null){myChoice=s.yourChoice;committed=!!s.locked;mark(s.yourChoice);
+        if(lockIn){const lb=document.getElementById('lockBtn');lb.disabled=committed;lb.textContent=committed?'Locked in':'Lock it in';}}}
+    else if(s.status==='LOCKED'){tick.stop();show('locked');}
+    else if(s.status==='RESULTS'&&s.results){renderRes({...s.results,gameType:s.gameType,prompt:s.question&&s.question.prompt,options:s.question&&s.question.options});renderLB(s.leaderboard,'lb');}
+    else if(s.status==='GAME_OVER'){tick.stop();show('over');renderLB(s.leaderboard,'lbFinal');}
+  },
+  'lobby:update'(d){document.getElementById('lobbyCount').textContent=d.playerCount;},
+  'question:show'(q){renderQ(q);},
+  'votes:locked'(){tick.stop();show('locked');},
+  'results:reveal'(d){renderRes({...d,options:opts});},
+  'leaderboard:update'(d){renderLB(d.top,'lb');
+    const m=(d.top||[]).find(x=>x.name===me.name);
+    if(m){document.getElementById('score').textContent=m.score;document.getElementById('finalScore').textContent=m.score;}},
+  'game:over'(d){tick.stop();show('over');renderLB(d.leaderboard,'lbFinal');},
+  'game:restart'(d){myChoice=null;committed=false;myMs=null;
+    if(d){if(d.gameType)gameType=d.gameType;if(d.scoringMode)scoring=d.scoringMode;if(d.lockIn!==undefined)lockIn=d.lockIn;applyMode();}
+    document.getElementById('score').textContent='0';tick.stop();show('lobby');},
+}});
+applyMode();
+</script></body></html>

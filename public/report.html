@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Game Report — Fun Friday</title><link rel="stylesheet" href="/app.css">
+<style>
+.sheet{width:min(780px,100%);margin:0 auto}
+.qcard{margin-top:12px}
+.qhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.qnum{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.supers{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:9px;margin-top:16px}
+.sup{padding:14px;border-radius:var(--r);background:var(--surface);border:1px solid var(--line)}
+.sup .t{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sup .v{font-size:16px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
+.sup .s{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+@media print{body::before,body::after,.aura,.noprint{display:none!important}
+body{background:#fff;color:#111}.panel{background:#fff;border:1px solid #ddd;box-shadow:none;backdrop-filter:none}
+.display,.stat-xl{-webkit-text-fill-color:#111;color:#111}}
+</style></head><body>
+<div id="brand"></div>
+<div class="wrap"><div class="sheet">
+  <div class="panel pad-lg fade-in">
+    <span class="chip-top"><span class="dot"></span>Game report</span>
+    <h1 class="display" id="title" style="margin:16px 0 8px">Loading…</h1>
+    <p class="lede" id="meta"></p>
+    <div class="btn-row noprint" style="margin-top:16px">
+      <button class="btn ghost sm" onclick="window.print()">Print / Save PDF</button>
+      <button class="btn ghost sm" id="dl">Download JSON</button></div>
+    <div class="supers" id="supers"></div></div>
+  <div class="panel pad mt" id="lbCard"><span class="field-label">Final standings</span><div class="list" id="lb"></div></div>
+  <div id="qs"></div>
+</div></div>
+<script src="/shared.js"></script>
+<script>
+addAura();
+document.getElementById('brand').innerHTML=BRAND_BAR;
+const room=(new URLSearchParams(location.search).get('room')||'').toUpperCase();let data=null;
+(async()=>{
+  const r=await API.get('/api/report?room='+room);
+  if(r.error||!r.questions){document.getElementById('title').textContent='Report unavailable';
+    document.getElementById('meta').textContent=r.error||'This room has no finished game yet.';return;}
+  data=r;const quiz=r.gameType==='quiz';
+  document.getElementById('title').textContent=(quiz?'Quiz':'Would You Rather');
+  document.getElementById('meta').textContent='Room '+r.roomCode+' · '+r.totalPlayers+' players · '+r.totalQuestions+' questions';
+  const s=r.superlatives||{},sup=[];
+  if(s.fastest)sup.push(['Fastest finger',s.fastest.name,'avg '+(s.fastest.avgMs/1000).toFixed(2)+'s per answer']);
+  if(s.mostAnswered)sup.push(['Most answers',s.mostAnswered.name,s.mostAnswered.answered+' questions answered']);
+  if(s.mostContrarian)sup.push(['Most contrarian',s.mostContrarian.name,'went against the crowd most often']);
+  if(s.mostDivisive)sup.push(['Most divisive','Q'+String(s.mostDivisive.n).padStart(2,'0'),s.mostDivisive.prompt]);
+  document.getElementById('supers').innerHTML=sup.map(x=>`<div class="sup"><div class="t">${x[0]}</div><div class="v">${esc(x[1])}</div><div class="s">${esc(x[2])}</div></div>`).join('');
+  document.getElementById('lbCard').classList.toggle('hide',r.scoringMode!=='points');
+  document.getElementById('lb').innerHTML=lbRows(r.leaderboard,quiz);
+  document.getElementById('qs').innerHTML=r.questions.map(q=>{
+    const bars=q.percents.map((p,i)=>resBar(q.options[i]||'',i,p,q.counts[i],{correct:q.correct,winners:q.winners})).join('');
+    return `<div class="panel pad qcard"><div class="qhead"><div style="min-width:0">
+      <div class="qnum">Question ${String(q.n).padStart(2,'0')}${q.round?' · '+esc(q.round):''}</div>
+      <div style="font-weight:650;font-size:15.5px;margin-top:6px;letter-spacing:-.02em;line-height:1.4">${esc(q.prompt)}</div></div>
+      <span class="badge count"><b class="mono-num">${q.total}</b> votes</span></div><div class="resrow">${bars}</div></div>`;}).join('');
+  document.querySelectorAll('.resrow').forEach(animBars);
+})();
+document.getElementById('dl').onclick=()=>{if(!data)return;const b=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='funfriday-report-'+room+'.json';a.click();};
+</script></body></html>

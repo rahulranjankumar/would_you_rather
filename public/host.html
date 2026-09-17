@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Host Console — Fun Friday</title><link rel="stylesheet" href="/app.css">
+<style>
+.setup{width:min(620px,100%);margin:0 auto}
+.console-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:14px;align-items:start}
+@media(max-width:900px){.console-grid{grid-template-columns:1fr}}
+.hp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.statuschip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-weight:700;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;background:var(--surface-2);border:1px solid var(--line-2);color:var(--text-2)}
+.statuschip .dot{width:6px;height:6px;border-radius:50%;background:#5C5478}
+.s-active .dot{background:var(--teal);box-shadow:0 0 0 3px rgba(34,240,220,.18),0 0 10px rgba(34,240,220,.8)}
+.s-read .dot{background:var(--gold);box-shadow:0 0 0 3px rgba(255,209,92,.18)}
+.s-locked .dot{background:#FFB930}
+.s-results .dot{background:var(--accent-hi);box-shadow:0 0 0 3px rgba(176,38,255,.2),0 0 10px rgba(204,102,255,.9)}
+.s-over .dot{background:#FF5EE0}
+.typechip{display:inline-flex;padding:6px 11px;border-radius:999px;font-weight:600;font-size:11.5px;
+  background:var(--surface-2);border:1px solid var(--line-2);color:var(--text-2)}
+.hp-progress{position:relative;height:3px;margin-top:14px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}
+.hp-progress-bar{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-hi));
+  transition:width .5s var(--ease);box-shadow:0 0 12px rgba(176,38,255,.8)}
+.prog-lbl{margin-top:7px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.htimer{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r);margin-top:14px;
+  background:rgba(18,10,36,.55);border:1px solid var(--line)}
+.htimer .val{margin-left:auto;font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.htimer.read .val{color:var(--gold)}.htimer.ans .val{color:var(--teal)}.htimer.low .val{color:#FF8A8A}
+.vstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.vstat{padding:10px 11px;border-radius:var(--r-sm);background:var(--surface);border:1px solid var(--line);text-align:center}
+.vstat .n{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.vstat .t{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-top:2px}
+.vstat.lk .n{color:var(--gold)}.vstat.vt .n{color:var(--teal)}
+#hopts .opt{min-height:64px;border-radius:var(--r);padding:12px 11px;font-size:12.5px}
+#hopts .opt .tag{width:21px;height:21px;font-size:10.5px;border-radius:6px}
+.jsonbox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;min-height:110px;resize:vertical;line-height:1.55}
+.example{background:rgba(10,5,22,.6);border:1px solid var(--line);border-radius:var(--r-sm);padding:11px 13px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;line-height:1.65;color:#8FF5E9;overflow-x:auto;white-space:pre;margin-top:8px}
+.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.tools button{flex:0 0 auto;font-size:11.5px;padding:7px 11px;border-radius:8px;border:1px solid var(--line-2);
+  background:var(--surface-2);color:var(--text-2);cursor:pointer;font-weight:600;font-family:inherit;transition:.15s var(--ease)}
+.tools button:hover{background:var(--raised);color:var(--text)}
+.cnt{font-size:11.5px;color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
+.code-display{text-align:center;padding:4px 0 2px}
+.qr-wrap{display:flex;justify-content:center;margin-top:12px}
+.joinline{font-size:11.5px;color:var(--muted);word-break:break-all;text-align:center;margin-top:12px;line-height:1.5}
+</style></head>
+<body data-intro="always">
+<div id="brand"></div>
+<div class="wrap">
+  <div id="setup" class="setup">
+   <div class="panel pad-lg fade-in">
+    <span class="chip-top"><span class="dot"></span>Host console</span>
+    <h1 class="display" style="margin:16px 0 8px" id="setupTitle">Set up the game</h1>
+    <p class="lede">Pick the format and your questions, then share the big screen on Teams.</p>
+    <div class="rule"></div>
+    <label>Format</label>
+    <div class="seg" id="typeSeg"><button data-v="wyr" class="active">Would You Rather</button><button data-v="quiz">Quiz</button></div>
+    <div class="grid2 mt">
+      <div><label>Scoring</label>
+        <div class="seg" id="scoreSeg"><button data-v="points" class="active">Leaderboard</button><button data-v="fun">Just for fun</button></div></div>
+      <div><label>Answer locking</label>
+        <div class="seg" id="lockSeg"><button data-v="off" class="active">Free change</button><button data-v="on">Must lock in</button></div></div>
+    </div>
+    <label>Reading time <span class="muted" style="font-weight:400;text-transform:none;letter-spacing:0">— shown before answering opens</span></label>
+    <div class="seg" id="readSeg"><button data-v="0">Off</button><button data-v="3000">3s</button>
+      <button data-v="5000" class="active">5s</button><button data-v="8000">8s</button><button data-v="readcustom">Custom</button></div>
+    <div id="readCustomWrap" class="hide mt"><input id="readCustom" type="number" min="0" max="30" value="5" inputmode="numeric" placeholder="Seconds (0–30)"></div>
+    <label>Answering time</label>
+    <div class="seg" id="timerSeg"><button data-v="15000">15s</button><button data-v="20000" class="active">20s</button>
+      <button data-v="30000">30s</button><button data-v="45000">45s</button><button data-v="custom">Custom</button></div>
+    <div id="customTimerWrap" class="hide mt"><input id="customTimer" type="number" min="5" max="300" value="25" inputmode="numeric" placeholder="Seconds (5–300)"></div>
+    <div class="rule"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <span class="field-label">Questions</span><span class="cnt"><span id="selCount">0</span> selected</span></div>
+    <div class="tools"><button id="selAll">Select all</button><button id="selNone">None</button>
+      <button id="selInvert">Invert</button><button id="toggleUpload">Upload JSON</button></div>
+    <div id="uploadWrap" class="hide mt">
+      <input type="file" id="fileIn" accept=".json,application/json" style="padding:9px;font-size:12.5px">
+      <textarea id="jsonIn" class="jsonbox mt" placeholder="Paste a JSON array here…"></textarea>
+      <div class="tools"><button id="applyJson">Load these</button><button id="clearJson">Back to built-in</button><button id="copyEx">Copy example</button></div>
+      <div id="jsonMsg" class="lede mt" style="font-size:12.5px;margin-bottom:0"></div>
+      <div class="example" id="exampleBox">[
+  {
+    "round": "Round 1: The Daily Grind",
+    "category": "Office Life",
+    "prompt": "Would you rather…",
+    "options": ["Option A text here", "Option B text here"]
+  },
+  {
+    "category": "Tech",
+    "prompt": "What does 'SQL' stand for?",
+    "options": ["Structured Query Language", "Simple Question Language", "System Query Layer"],
+    "correct": 0
+  }
+]</div></div>
+    <div class="qpick" id="qpick"></div>
+    <button class="btn" id="createBtn" style="margin-top:20px">Create room</button>
+    <button class="btn ghost sm mt hide" id="cancelSetup" style="width:100%">Back to current game</button>
+   </div>
+  </div>
+
+  <div id="console" class="hide">
+    <div id="banner" class="panel pad hide" style="border-color:rgba(255,209,92,.35);background:rgba(255,209,92,.07);margin-bottom:12px;font-size:13px;line-height:1.5"></div>
+    <div class="console-grid">
+      <div class="panel pad">
+        <div class="eyebrow" style="text-align:center">Room code</div>
+        <div class="code-display"><div class="roomcode" id="code">—</div></div>
+        <div class="qr-wrap"><div class="qr"><img id="qr" alt="Join QR" onerror="this.style.display='none'"></div></div>
+        <div class="joinline" id="joinUrl"></div>
+        <div class="rule" style="margin:16px 0"></div>
+        <a class="btn ghost sm" id="screenLink" target="_blank" style="width:100%;display:block;text-align:center;text-decoration:none">Open big screen</a>
+        <button class="btn ghost sm mt" id="peopleBtn" style="width:100%">Show participants</button>
+      </div>
+      <div class="panel pad">
+        <div class="hp-head">
+          <div class="statuschip s-lobby" id="statusChip"><span class="dot"></span><span id="statusLbl">Lobby</span></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="typechip" id="typeChip">Would You Rather</span>
+            <span class="badge count">👥 <b class="mono-num" id="pcount">0</b></span></div>
+        </div>
+        <div class="hp-progress"><div class="hp-progress-bar" id="hpBar"></div></div>
+        <div class="prog-lbl" id="progressLbl">Not started</div>
+        <div class="htimer hide" id="htimer"><span class="eyebrow" id="htLbl">Answering</span><span class="val mono-num" id="htVal">—</span></div>
+        <div class="rule" style="margin:16px 0"></div>
+        <div class="qcategory" id="hcat"></div>
+        <div class="question" id="hqtext" style="font-size:clamp(15px,2.4vw,19px);margin:8px 0 14px;min-height:28px">Waiting to start…</div>
+        <div class="options" id="hopts" style="display:none"></div>
+        <div class="vstats hide" id="vstats">
+          <div class="vstat vt"><div class="n mono-num" id="vVoted">0</div><div class="t">Voted</div></div>
+          <div class="vstat lk hide" id="vLockWrap"><div class="n mono-num" id="vLocked">0</div><div class="t">Locked</div></div>
+          <div class="vstat"><div class="n mono-num" id="vTotal">0</div><div class="t">Players</div></div>
+        </div>
+        <div class="resrow" id="hres"></div>
+        <div class="rule" style="margin:18px 0 14px"></div>
+        <div class="btn-row"><button class="btn" id="startBtn">Start</button>
+          <button class="btn ghost" id="lockBtn" title="Close voting now instead of waiting for the timer">Close voting</button>
+          <button class="btn ghost" id="nextBtn">Next</button></div>
+        <div class="btn-row mt"><button class="btn ghost sm" id="restartBtn">Restart</button>
+          <button class="btn ghost sm" id="endBtn">End game</button>
+          <button class="btn gold sm hide" id="reportBtn">Report</button></div>
+      </div>
+    </div>
+    <div class="panel pad mt hide" id="peopleCard">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+        <span class="field-label">Participants <b class="mono-num" id="peopleCount">0</b></span>
+        <div class="tools" style="margin-top:0"><button id="refreshPeople">Refresh</button><button id="hidePeople">Hide</button></div></div>
+      <div class="legend"><span><i style="background:#5C5478"></i>Not answered</span><span><i style="background:#22F0DC"></i>Answered</span><span><i style="background:#FFD15C"></i>Locked in</span></div>
+      <div class="people" id="people"></div>
+    </div>
+    <div class="panel pad mt" id="lbCard"><span class="field-label">Leaderboard</span><div class="list" id="lb"></div></div>
+  </div>
+</div>
+<script src="/shared.js"></script><script src="/intro.js"></script>
+<script>
+addAura();
+document.getElementById('brand').innerHTML=BRAND_BAR;
+let host=JSON.parse(localStorage.getItem('wyr_host')||'null'),lastQ=null;
+let sel={gameType:'wyr',scoringMode:'points',lockIn:'off',timer:'20000',read:'5000'};
+let bank=[],enabled=new Set(),customBank=null,roster=[],rosterOpen=false;
+let startedAt=0,answerAt=0,endAt=0;
+
+function wireSeg(id,key,cb){document.querySelectorAll('#'+id+' button').forEach(b=>{b.onclick=()=>{
+  document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('active'));b.classList.add('active');sel[key]=b.dataset.v;cb&&cb(b.dataset.v);};});}
+wireSeg('typeSeg','gameType',v=>loadBank(v));
+wireSeg('scoreSeg','scoringMode');wireSeg('lockSeg','lockIn');
+wireSeg('timerSeg','timer',v=>document.getElementById('customTimerWrap').classList.toggle('hide',v!=='custom'));
+wireSeg('readSeg','read',v=>document.getElementById('readCustomWrap').classList.toggle('hide',v!=='readcustom'));
+const timerMs=()=>sel.timer==='custom'?Math.max(5,Math.min(300,parseInt(document.getElementById('customTimer').value,10)||25))*1000:parseInt(sel.timer,10);
+const readMs=()=>sel.read==='readcustom'?Math.max(0,Math.min(30,parseInt(document.getElementById('readCustom').value,10)||5))*1000:parseInt(sel.read,10);
+
+async function loadBank(type){
+  if(customBank)bank=customBank;else{const r=await API.get('/api/bank?type='+type);bank=r.questions||[];}
+  enabled=new Set(bank.map((_,i)=>i));renderPick();
+}
+function renderPick(){
+  const box=document.getElementById('qpick');
+  box.innerHTML=bank.map((q,i)=>`<div class="qitem ${enabled.has(i)?'on':'off'}" data-i="${i}"><span class="cb">✓</span>
+    <span class="qtxt">${q.round?`<b>${esc(q.round)}</b>`:(q.category?`<b>${esc(q.category)}</b>`:'')}${esc(q.prompt)}
+      <span class="qopts">${q.options.map((o,k)=>L[k]+') '+esc(o)).join('  ·  ')}</span></span></div>`).join('');
+  box.querySelectorAll('.qitem').forEach(el=>{el.onclick=()=>{const i=+el.dataset.i;enabled.has(i)?enabled.delete(i):enabled.add(i);renderPick();};});
+  document.getElementById('selCount').textContent=enabled.size;
+}
+document.getElementById('selAll').onclick=()=>{enabled=new Set(bank.map((_,i)=>i));renderPick();};
+document.getElementById('selNone').onclick=()=>{enabled=new Set();renderPick();};
+document.getElementById('selInvert').onclick=()=>{const n=new Set();bank.forEach((_,i)=>{if(!enabled.has(i))n.add(i);});enabled=n;renderPick();};
+document.getElementById('toggleUpload').onclick=()=>document.getElementById('uploadWrap').classList.toggle('hide');
+document.getElementById('copyEx').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(document.getElementById('exampleBox').textContent);
+  document.getElementById('jsonMsg').textContent='Example copied to clipboard.';};
+document.getElementById('fileIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>document.getElementById('jsonIn').value=r.result;r.readAsText(f);};
+document.getElementById('applyJson').onclick=()=>{
+  const m=document.getElementById('jsonMsg');
+  try{const p=JSON.parse(document.getElementById('jsonIn').value);
+    if(!Array.isArray(p))throw new Error('Top level must be an array [ … ]');
+    const c=p.filter(q=>q&&Array.isArray(q.options)&&q.options.length>=2&&q.options.length<=4&&q.prompt);
+    if(!c.length)throw new Error('No valid questions. Each needs "prompt" and 2–4 "options".');
+    customBank=c.map(q=>({round:q.round||'',category:q.category||'Custom',prompt:String(q.prompt),options:q.options.map(String),correct:q.correct}));
+    bank=customBank;enabled=new Set(bank.map((_,i)=>i));renderPick();
+    m.style.color='#8FF5E9';m.textContent='Loaded '+c.length+' questions'+(p.length-c.length?' ('+(p.length-c.length)+' skipped)':'')+'.';
+  }catch(e){m.style.color='#FF9E9E';m.textContent=e.message;}
+};
+document.getElementById('clearJson').onclick=()=>{customBank=null;document.getElementById('jsonIn').value='';document.getElementById('jsonMsg').textContent='';loadBank(sel.gameType);};
+
+let mode='create';
+function openSetup(m){mode=m;document.getElementById('console').classList.add('hide');document.getElementById('setup').classList.remove('hide');
+  document.getElementById('setupTitle').textContent=m==='reconfigure'?'Start a new game':'Set up the game';
+  document.getElementById('createBtn').textContent=m==='reconfigure'?'Start new game':'Create room';
+  document.getElementById('cancelSetup').classList.toggle('hide',m!=='reconfigure');}
+document.getElementById('cancelSetup').onclick=()=>{document.getElementById('setup').classList.add('hide');document.getElementById('console').classList.remove('hide');};
+document.getElementById('createBtn').onclick=async()=>{
+  if(!enabled.size)return alert('Select at least one question.');
+  const pl={gameType:sel.gameType,scoringMode:sel.scoringMode,lockIn:sel.lockIn==='on',timerMs:timerMs(),readMs:readMs(),enabled:[...enabled].sort((a,b)=>a-b)};
+  if(customBank)pl.customBank=customBank;else pl.clearCustom=true;
+  const b=document.getElementById('createBtn');b.disabled=true;const o=b.textContent;b.textContent='Working…';
+  if(mode==='reconfigure'&&host){await API.post('/api/host',{roomCode:host.room,hostToken:host.hostToken,action:'reconfigure',...pl});
+    host={...host,...pl};localStorage.setItem('wyr_host',JSON.stringify(host));
+    document.getElementById('setup').classList.add('hide');document.getElementById('console').classList.remove('hide');}
+  else{const r=await API.post('/api/room/create',pl);if(r.error){b.disabled=false;b.textContent=o;return alert(r.error);}
+    host={room:r.roomCode,hostToken:r.hostToken,...pl};localStorage.setItem('wyr_host',JSON.stringify(host));boot();}
+  b.disabled=false;b.textContent=o;
+};
+const act=(a,x)=>API.post('/api/host',{roomCode:host.room,hostToken:host.hostToken,action:a,...(x||{})});
+document.getElementById('startBtn').onclick=()=>act('start');
+document.getElementById('nextBtn').onclick=()=>act('next');
+document.getElementById('lockBtn').onclick=()=>act('lock');
+document.getElementById('restartBtn').onclick=()=>{if(confirm('Restart with the same settings? Scores reset; players stay joined.'))act('restart');};
+document.getElementById('endBtn').onclick=()=>{if(confirm('End the game and choose new settings?')){act('end');setTimeout(()=>openSetup('reconfigure'),300);}};
+document.getElementById('reportBtn').onclick=()=>window.open('/report?room='+host.room,'_blank');
+
+const htick=ticker(()=>{
+  const now=Date.now(),t=document.getElementById('htimer'),v=document.getElementById('htVal'),l=document.getElementById('htLbl');
+  if(!answerAt){t.classList.add('hide');return false;}
+  t.classList.remove('hide');
+  if(now<answerAt){t.className='htimer read';l.textContent='Reading time';v.textContent=Math.ceil((answerAt-now)/1000)+'s';return true;}
+  const left=endAt-now,s=Math.ceil(left/1000);
+  t.className='htimer ans'+(s<=5?' low':'');l.textContent='Answering';v.textContent=(s>0?s:0)+'s';
+  return left>0;
+});
+document.getElementById('peopleBtn').onclick=async()=>{rosterOpen=true;document.getElementById('peopleCard').classList.remove('hide');await fetchRoster();};
+document.getElementById('hidePeople').onclick=()=>{rosterOpen=false;document.getElementById('peopleCard').classList.add('hide');};
+document.getElementById('refreshPeople').onclick=fetchRoster;
+async function fetchRoster(){
+  const r=await API.get('/api/roster?room='+host.room+'&hostToken='+host.hostToken);
+  if(r.error)return;
+  roster=r.players||[];document.getElementById('peopleCount').textContent=r.total||roster.length;renderPeople();
+}
+function renderPeople(votedSet,lockedSet){
+  const box=document.getElementById('people');
+  box.innerHTML=roster.map(p=>{
+    const lk=lockedSet?lockedSet.has(p.seq):p.locked,vt=votedSet?votedSet.has(p.seq):p.voted;
+    const cls=lk?'locked':vt?'voted':'';
+    const ch=(lk||vt)&&p.choice!=null?`<span class="pc">${L[p.choice]}</span>`:'';
+    return `<div class="pchip ${cls}"><span class="dot"></span><span class="pn">${esc(p.name)}</span>${lk?'<span class="pc">🔒</span>':ch}</div>`;
+  }).join('')||'<div class="muted" style="font-size:12.5px">No one has joined yet</div>';
+}
+const setChip=s=>{const c=document.getElementById('statusChip');
+  const m={LOBBY:['s-lobby','Lobby'],QUESTION_ACTIVE:['s-active','Live'],LOCKED:['s-locked','Closed'],RESULTS:['s-results','Results'],GAME_OVER:['s-over','Game over']};
+  const[k,t]=m[s]||['s-lobby',s];c.className='statuschip '+k;document.getElementById('statusLbl').textContent=t;};
+const setType=g=>{document.getElementById('typeChip').textContent=g==='quiz'?'Quiz':'Would You Rather';};
+const setProg=(n,t)=>{document.getElementById('hpBar').style.width=(n>0&&t>0?Math.round(n/t*100):0)+'%';
+  document.getElementById('progressLbl').textContent=n>0?'Question '+String(n).padStart(2,'0')+' of '+String(t).padStart(2,'0'):'Not started';};
+const renderLB=l=>document.getElementById('lb').innerHTML=lbRows(l,(host&&host.gameType)==='quiz');
+const showBanner=h=>{const b=document.getElementById('banner');b.innerHTML=h;b.classList.remove('hide');};
+
+async function boot(){
+  if(!host)return;
+  const v=await API.post('/api/room/verify',{roomCode:host.room,hostToken:host.hostToken});
+  if(!v.ok){const r=await API.post('/api/room/create',{gameType:host.gameType,scoringMode:host.scoringMode,lockIn:host.lockIn,timerMs:host.timerMs,readMs:host.readMs,enabled:host.enabled,customBank:host.customBank});
+    if(r.error){openSetup('create');return;}host={...host,room:r.roomCode,hostToken:r.hostToken};localStorage.setItem('wyr_host',JSON.stringify(host));
+    showBanner('Your previous room expired (the server restarted). A fresh room <b>'+host.room+'</b> was created — share this new code.');}
+  else if(v.settings)host={...host,...v.settings};
+  document.getElementById('setup').classList.add('hide');document.getElementById('console').classList.remove('hide');
+  const url=location.origin+'/?room='+host.room;
+  document.getElementById('code').textContent=host.room;document.getElementById('joinUrl').textContent=url;
+  document.getElementById('qr').src=qrURL(url,190);document.getElementById('screenLink').href='/screen?room='+host.room;
+  document.getElementById('lbCard').classList.toggle('hide',(host.scoringMode||'points')!=='points');
+  document.getElementById('vLockWrap').classList.toggle('hide',!host.lockIn);
+  connectSSE({room:host.room,role:'host',handlers:{
+    sync(s){paint(s);},
+    'lobby:update'(d){document.getElementById('pcount').textContent=d.playerCount;document.getElementById('vTotal').textContent=d.playerCount;if(rosterOpen)fetchRoster();},
+    'question:show'(q){lastQ=q;paintQ(q);document.getElementById('reportBtn').classList.add('hide');
+      startedAt=q.startedAt;answerAt=q.answerAt||q.startedAt;endAt=answerAt+(q.durationMs||20000);htick.start();if(rosterOpen)fetchRoster();},
+    'vote:progress'(d){document.getElementById('vstats').classList.remove('hide');
+      document.getElementById('vVoted').textContent=d.votedCount;
+      document.getElementById('vLocked').textContent=d.lockedCount||0;
+      document.getElementById('vTotal').textContent=d.totalCount;
+      if(rosterOpen&&roster.length)renderPeople(new Set(d.voted||[]),new Set(d.locked||[]));},
+    'votes:locked'(){setChip('LOCKED');htick.stop();document.getElementById('htimer').classList.add('hide');answerAt=0;},
+    'results:reveal'(d){paintRes({...d,options:lastQ&&lastQ.options});if(rosterOpen)fetchRoster();},
+    'leaderboard:update'(d){renderLB(d.top);},
+    'game:over'(d){setChip('GAME_OVER');renderLB(d.leaderboard);htick.stop();answerAt=0;
+      document.getElementById('htimer').classList.add('hide');document.getElementById('hcat').textContent='';
+      document.getElementById('hqtext').textContent='Game over — view the report, restart, or set up a new game.';
+      document.getElementById('hopts').style.display='none';document.getElementById('hres').innerHTML='';
+      document.getElementById('vstats').classList.add('hide');
+      document.getElementById('startBtn').textContent='Start';document.getElementById('reportBtn').classList.remove('hide');},
+    'game:restart'(d){if(d){host.gameType=d.gameType||host.gameType;host.scoringMode=d.scoringMode||host.scoringMode;
+        if(d.lockIn!==undefined)host.lockIn=d.lockIn;localStorage.setItem('wyr_host',JSON.stringify(host));
+        document.getElementById('lbCard').classList.toggle('hide',host.scoringMode!=='points');
+        document.getElementById('vLockWrap').classList.toggle('hide',!host.lockIn);}
+      htick.stop();answerAt=0;document.getElementById('htimer').classList.add('hide');
+      document.getElementById('hqtext').textContent='New round ready — waiting to start.';document.getElementById('hopts').style.display='none';
+      document.getElementById('hres').innerHTML='';document.getElementById('vstats').classList.add('hide');renderLB([]);
+      document.getElementById('reportBtn').classList.add('hide');if(rosterOpen)fetchRoster();},
+  }});
+}
+function paint(s){
+  if(s.gameType){host.gameType=s.gameType;setType(s.gameType);}
+  if(s.scoringMode)document.getElementById('lbCard').classList.toggle('hide',s.scoringMode!=='points');
+  if(s.lockIn!==undefined){host.lockIn=s.lockIn;document.getElementById('vLockWrap').classList.toggle('hide',!s.lockIn);}
+  document.getElementById('pcount').textContent=s.playerCount;document.getElementById('vTotal').textContent=s.playerCount;
+  setChip(s.status);setProg(s.questionNumber,s.totalQuestions);
+  document.getElementById('startBtn').textContent=(s.status==='LOBBY'||s.status==='GAME_OVER')?'Start':'Resume';
+  if(s.question)lastQ=s.question;
+  if(s.status==='QUESTION_ACTIVE'&&s.question){paintQ({...s.question,questionNumber:s.questionNumber,totalQuestions:s.totalQuestions});
+    if(s.timer){startedAt=s.timer.startedAt;answerAt=s.timer.answerAt;endAt=answerAt+s.timer.durationMs;htick.start();}}
+  else if(s.status==='RESULTS'&&s.results){paintQText(s.question);paintRes({...s.results,gameType:s.gameType,options:s.question&&s.question.options});}
+  else if(s.status==='LOBBY'){document.getElementById('hqtext').textContent='Waiting to start…';document.getElementById('hopts').style.display='none';
+    document.getElementById('hres').innerHTML='';document.getElementById('vstats').classList.add('hide');
+    htick.stop();answerAt=0;document.getElementById('htimer').classList.add('hide');}
+  if(s.status==='GAME_OVER')document.getElementById('reportBtn').classList.remove('hide');
+  renderLB(s.leaderboard);
+}
+function paintQText(q){if(!q)return;document.getElementById('hcat').textContent=q.round||q.category||'';
+  document.getElementById('hqtext').textContent=q.prompt||'Would you rather…';
+  const w=document.getElementById('hopts');w.style.display='grid';w.className='options n'+(q.options||[]).length;
+  w.innerHTML=(q.options||[]).map((t,i)=>`<div class="opt" data-i="${i}"><span class="tag">${L[i]}</span><span class="opt-text">${esc(t)}</span></div>`).join('');}
+function paintQ(q){setChip('QUESTION_ACTIVE');if(q.questionNumber)setProg(q.questionNumber,q.totalQuestions);paintQText(q);
+  document.getElementById('hres').innerHTML='';document.getElementById('vstats').classList.remove('hide');
+  document.getElementById('vVoted').textContent='0';document.getElementById('vLocked').textContent='0';}
+function paintRes(d){setChip('RESULTS');const o=d.options||[],c=(d.gameType==='quiz'||d.correct!=null)?d.correct:null;
+  const box=document.getElementById('hres');box.innerHTML=(d.percents||[]).map((p,i)=>resBar(o[i]||'',i,p,(d.counts||[])[i]||0,{correct:c,winners:d.winners})).join('');
+  animBars(box);}
+loadBank('wyr');
+if(host)boot();
+</script></body></html>
