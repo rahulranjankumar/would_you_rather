@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05030F">
+<link rel="manifest" href="/manifest.webmanifest">
+<title>Fun Friday Arena — Boarding pass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css?v=29">
+<link rel="stylesheet" href="/assets/arena.css?v=29">
+<style>
+body{min-height:100vh;min-height:100dvh}
+.jv{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.jv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3}
+.jv::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(5,3,15,.35),rgba(5,3,15,.92) 75%)}
+.river{background:transparent!important}
+.jshell{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;max-width:1200px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) clamp(14px,3vw,36px) calc(14px + env(safe-area-inset-bottom))}
+.jnav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+.jstage{flex:1;display:grid;place-items:center;padding:14px 0}
+/* ---------- the boarding pass ---------- */
+.pass{--rx:0deg;--ry:0deg;position:relative;width:min(560px,100%);border-radius:28px;transform:perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .4s var(--ease);
+  animation:passIn .9s var(--ease) both}
+@keyframes passIn{from{opacity:0;transform:perspective(1100px) translateY(30px) rotateX(18deg)}}
+.pass__top{padding:22px 24px 18px;border-radius:28px 28px 0 0}
+.pass__bot{padding:16px 24px 22px;border-radius:0 0 28px 28px;margin-top:-1px;transition:transform .3s var(--ease),opacity .3s}
+.pass__perf{position:relative;height:0;border-top:2px dashed rgba(243,238,255,.22);margin:0 18px}
+.pass__perf::before,.pass__perf::after{content:"";position:absolute;top:-13px;width:24px;height:24px;border-radius:50%;background:var(--void)}
+.pass__perf::before{left:-30px}.pass__perf::after{right:-30px}
+.pass.torn .pass__bot{transform:translateY(40px) rotate(4deg);opacity:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ph .ey{font:500 11px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mist)}
+.ph .gate{font:700 11px var(--f-mono);letter-spacing:.14em;color:var(--lime)}
+.pt{font:400 clamp(34px,6vw,54px)/.95 var(--f-disp);text-transform:uppercase;letter-spacing:-.01em;margin:12px 0 6px}
+.ps{font:450 14px/1.5 var(--f-ui);color:var(--mist);margin:0 0 16px}
+.fl{display:block;font:500 10.5px var(--f-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin:0 0 7px}
+.row2{display:grid;grid-template-columns:1fr;gap:14px}
+.fld{position:relative}
+.inp{width:100%;height:54px;padding:0 16px;border-radius:14px;border:0;outline:0;font:600 17px var(--f-ui);color:var(--pearl);background:rgba(243,238,255,.06);box-shadow:inset 0 0 0 1px rgba(243,238,255,.16)}
+.inp::placeholder{color:rgba(243,238,255,.35);font-weight:450}
+.ring{position:absolute;inset:0;pointer-events:none;width:100%;height:100%;overflow:visible}
+.ring rect{fill:none;stroke:var(--cyan);stroke-width:2;stroke-dasharray:1 1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset .5s var(--ease),opacity .2s}
+.inp:focus~.ring rect{stroke-dashoffset:0;opacity:1}
+.pass .holo::before{opacity:.22}
+.fld.err{animation:sh2 .45s ease}@keyframes sh2{25%{translate:-7px 0}50%{translate:7px 0}75%{translate:-3px 0}}
+.flap{display:flex;gap:8px}
+.flap input{width:calc((100% - 32px)/5);height:64px;padding:0;text-align:center;border-radius:12px;border:0;outline:0;text-transform:uppercase;
+  font:700 30px var(--f-mono);color:var(--pearl);background:linear-gradient(to bottom,rgba(243,238,255,.1) 0 49%,rgba(5,3,15,.6) 49% 51%,rgba(243,238,255,.06) 51%);box-shadow:inset 0 0 0 1px rgba(243,238,255,.18);caret-color:var(--lime)}
+.flap input:focus{box-shadow:inset 0 0 0 2px var(--cyan)}
+.flap input.flip{animation:flip .12s linear}@keyframes flip{50%{transform:perspective(200px) rotateX(-90deg)}}
+.flap-wrap{position:relative;padding:10px;border-radius:16px}
+.kicks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kick{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border-radius:16px;min-height:44px;background:rgba(243,238,255,.04);box-shadow:inset 0 0 0 1px rgba(243,238,255,.12);transition:transform .3s var(--spring)}
+.kick svg{width:min(78px,18vw);height:auto;transition:transform .35s var(--spring)}
+.kick span{font:600 12px var(--f-ui)}.kick small{font:500 9.5px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+.kick[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--lime),0 12px 30px -16px rgba(198,255,61,.6)}
+.kick[aria-pressed="true"] svg{animation:hopwave .7s var(--spring)}
+@keyframes hopwave{30%{transform:translateY(-14px) scale(1.04,.96)}60%{transform:translateY(0) scale(.96,1.04)}}
+.board{width:100%;justify-content:space-between;margin-top:4px}
+.msg{min-height:20px;margin:10px 0 0;font:500 12.5px var(--f-mono);color:var(--mist)}
+.msg.bad{color:#FFB2C9}
+.barcode{height:34px;margin-top:14px;opacity:.5;background:repeating-linear-gradient(90deg,var(--pearl) 0 2px,transparent 2px 4px,var(--pearl) 4px 5px,transparent 5px 9px,var(--pearl) 9px 12px,transparent 12px 14px)}
+.jfoot{display:flex;justify-content:space-between;gap:10px;font:500 10.5px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mist-2);padding-top:8px}
+.portal{position:fixed;left:50%;top:50%;z-index:120;width:180vmax;height:180vmax;margin:-90vmax 0 0 -90vmax;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 0deg,#A100FF,#4B18A8,#00AEEF,#05030F,#A100FF);transform:scale(0) rotate(-200deg);animation:portal .7s cubic-bezier(.7,0,.3,1) forwards}
+@keyframes portal{to{transform:scale(1) rotate(0)}}
+@media(min-width:560px){.row2{grid-template-columns:1.3fr 1fr}}
+@media(max-width:559px){
+  .jstage{place-items:end center}
+  .pass{border-radius:26px}
+  .jnav .gbtn[href="/host"]{display:none}
+}
+
+/* ---------- AUTO-FIT: the whole boarding pass always fits the screen ---------- */
+:root{--fit:1}
+.pass__top{padding:calc(22px * var(--fit)) 24px calc(18px * var(--fit))}
+.pass__bot{padding:calc(16px * var(--fit)) 24px calc(22px * var(--fit))}
+.pt{font-size:calc(clamp(30px,6vw,54px) * var(--fit));margin:calc(12px * var(--fit)) 0 calc(6px * var(--fit))}
+.ps{margin-bottom:calc(16px * var(--fit))}
+.flap input{height:calc(64px * var(--fit));font-size:calc(30px * var(--fit))}
+.inp{height:calc(54px * var(--fit))}
+.row2{gap:calc(14px * var(--fit))}
+.cta.board{padding-top:calc(14px * var(--fit));padding-bottom:calc(14px * var(--fit))}
+.barcode{height:calc(34px * var(--fit));margin-top:calc(14px * var(--fit))}
+.jstage{padding:calc(14px * var(--fit)) 0}
+html.fit-tight .ps,html.fit-tight .barcode{display:none}
+html.fit-tight .pass__top .ph{display:none}
+@media(min-width:900px) and (max-height:760px){
+  .pass{width:min(860px,100%)}
+  .pass__top .row2{grid-template-columns:1.3fr 1fr}
+}
+@media(max-width:380px){.pass__top,.pass__bot{padding-left:16px;padding-right:16px}.flap{gap:6px}}
+/* v29: footer credit never runs under the mute button */
+.jfoot{padding-right:64px}
+</style>
+</head>
+<body>
+<div class="jv"><video muted loop playsinline preload="none"
+  data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260331_151551_992053d1-3d3e-4b8c-abac-45f22158f411.mp4"></video></div>
+<div class="jshell">
+  <div class="jnav">
+    <div id="brand"></div>
+    <div style="display:flex;gap:8px"><a class="gbtn" href="/">Home</a><a class="gbtn" href="/host">Host</a></div>
+  </div>
+  <div class="jstage">
+    <form class="pass" id="joinForm" autocomplete="off" novalidate>
+      <div class="pass__top lg holo">
+        <div class="ph"><span class="ey">Boarding pass · Fun Friday Arena</span><span class="gate">GATE 4PM</span></div>
+        <div class="pt">Board the arena</div>
+        <p class="ps">Room code from the big screen and your name. That's it.</p>
+        <span class="fl" id="codeL">Room code</span>
+        <div class="flap-wrap lg" style="background:rgba(5,3,15,.35)">
+          <div class="flap" id="flap" role="group" aria-labelledby="codeL">
+            <input maxlength="1" inputmode="text" autocapitalize="characters" aria-label="Code character 1">
+            <input maxlength="1" inputmode="text" autocapitalize="characters" aria-label="Code character 2">
+            <input maxlength="1" inputmode="text" autocapitalize="characters" aria-label="Code character 3">
+            <input maxlength="1" inputmode="text" autocapitalize="characters" aria-label="Code character 4">
+            <input maxlength="1" inputmode="text" autocapitalize="characters" aria-label="Code character 5">
+          </div>
+        </div>
+        <div class="row2" style="margin-top:14px">
+          <div><label class="fl" for="name">Passenger</label>
+            <div class="fld" id="nameF"><input class="inp" id="name" maxlength="20" placeholder="Your name" autocomplete="off" autocapitalize="words" spellcheck="false" required>
+            <svg class="ring" preserveAspectRatio="none"><rect x="1" y="1" rx="14" pathLength="1" style="width:calc(100% - 2px);height:calc(100% - 2px)"/></svg></div></div>
+          <div><label class="fl" for="team">Team <span style="opacity:.6">· optional</span></label>
+            <div class="fld"><input class="inp" id="team" maxlength="18" placeholder="e.g. SAP Squad" autocomplete="off" autocapitalize="words" spellcheck="false">
+            <svg class="ring" preserveAspectRatio="none"><rect x="1" y="1" rx="14" pathLength="1" style="width:calc(100% - 2px);height:calc(100% - 2px)"/></svg></div></div>
+        </div>
+      </div>
+      <div class="pass__perf"></div>
+      <div class="pass__bot lg">
+        <div style="margin-top:2px"><button class="cta board" type="submit" id="go">Board<span class="cta__orb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></span></button></div>
+        <p class="msg" id="msg" role="status"></p>
+        <div class="barcode" aria-hidden="true"></div>
+      </div>
+    </form>
+  </div>
+  <div class="jfoot"><span>Fun Friday Arena</span><span class="credit-mark">Made by PPA Warriors</span></div>
+</div>
+<script src="/assets/perf.js?v=29"></script>
+<script src="/assets/shared.js?v=29"></script>
+<script src="/assets/sfx.js?v=29"></script>
+<script src="/assets/fx.js?v=29"></script>
+<script src="/assets/river.js?v=29"></script>
+<script src="/assets/toy3d.js?v=29"></script>
+<script src="/assets/crew.js?v=29"></script>
+<script src="/assets/arena.js?v=29"></script>
+<script>
+(function(){
+  var F=window.FFA,A=window.Arena;
+  F.$('#brand').innerHTML=F.brandBar('/');
+  A.boot({});
+  /* video only when visible, phones show it too (it's dimmed to 30%) */
+  F.videos();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').then(function(){return navigator.serviceWorker.ready;})
+    .then(function(r){if(r.active)r.active.postMessage({type:'warm'});}).catch(function(){});
+  var pass=F.$('#joinForm');
+  /* auto-fit: shrink step by step until the pass (incl. Board button) fits the viewport */
+  function fitJ(){var r=document.documentElement,steps=[1,.92,.85,.78,.72,.66];r.classList.remove('fit-tight');
+    for(var i=0;i<steps.length;i++){r.style.setProperty('--fit',steps[i]);if(steps[i]<.86)r.classList.add('fit-tight');if(r.scrollHeight<=innerHeight+1)break;}}
+  fitJ();var fjT=0,fjW=innerWidth;addEventListener('resize',function(){var typing=/INPUT/.test((document.activeElement||{}).tagName||'');if(typing&&innerWidth===fjW)return;fjW=innerWidth;clearTimeout(fjT);fjT=setTimeout(fitJ,100);});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitJ);A.glass('.pass',{tilt:true,max:5});
+  var cells=F.$$('#flap input'),name=F.$('#name'),team=F.$('#team'),msg=F.$('#msg'),go=F.$('#go');
+  var sk=F.store.get('ffa-sk')||'momo',busy=false,resumeTimer=null;
+  /* no avatar picker (400 people, 3 avatars = clones). Everyone gets a unique initials badge;
+     a random crew mascot is only used for the Wrapped story cards. */
+  if(!F.store.get('ffa-sk'))F.store.set('ffa-sk',['momo','noodle','bean'][Math.floor(Math.random()*3)]);sk=F.store.get('ffa-sk');
+  function say(t,bad){msg.textContent=t||'';msg.classList.toggle('bad',!!bad);}
+  function code(){return cells.map(function(c){return c.value;}).join('').toUpperCase();}
+  function setCode(v){v=(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,5);cells.forEach(function(c,i){c.value=v[i]||'';});}
+  /* split-flap: each character flips in (120 ms), auto-advance */
+  cells.forEach(function(c,i){
+    c.addEventListener('input',function(){var v=c.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+      if(v.length>1){setCode(code().slice(0,i)+v);var n=Math.min(4,i+v.length);cells[n].focus();return;}
+      c.value=v;if(v){c.classList.remove('flip');void c.offsetWidth;c.classList.add('flip');SFX.tick();if(i<4)cells[i+1].focus();else name.focus();}});
+    c.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!c.value&&i>0){cells[i-1].focus();cells[i-1].value='';e.preventDefault();}
+      if(e.key==='ArrowLeft'&&i>0)cells[i-1].focus();if(e.key==='ArrowRight'&&i<4)cells[i+1].focus();});
+    c.addEventListener('paste',function(e){var t=(e.clipboardData||window.clipboardData).getData('text');if(t){e.preventDefault();setCode(t);cells[Math.min(4,t.length)].focus();}});
+    c.addEventListener('focus',function(){c.select();});});
+  var q=new URLSearchParams(location.search);
+  var fromUrl=(q.get('room')||q.get('code')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  var savedRoom=F.store.get('ffa-room');
+  setCode(fromUrl||savedRoom||'');
+  var sn=F.store.get('ffa-name');if(sn)name.value=sn;var st=F.store.get('ffa-team');if(st)team.value=st;
+  setTimeout(function(){try{(code().length===5?name:cells[code().length]||cells[0]).focus({preventScroll:true});}catch(e){}},300);
+  var savedPid=F.store.get('ffa-pid');
+  if(savedRoom&&savedPid){F.post('/api/room/verify',{roomCode:savedRoom,playerId:savedPid}).then(function(r){
+    if(!r.ok||!r.known)return;go.firstChild.textContent='Rejoin as '+r.name;say('Welcome back, '+r.name+' — rejoining…');
+    resumeTimer=setTimeout(function(){location.href='/play';},2200);}).catch(function(){});}
+  ['input','focus'].forEach(function(ev){cells.concat([name,team]).forEach(function(f){f.addEventListener(ev,function(){
+    if(resumeTimer){clearTimeout(resumeTimer);resumeTimer=null;go.firstChild.textContent='Board';say('Auto-rejoin cancelled — carry on.');}});});});
+  function shake(el){el.classList.remove('err');void el.offsetWidth;el.classList.add('err');SFX.error();}
+  name.addEventListener('blur',function(){var n=name.value.trim(),c=code();if(!n||c.length!==5)return;
+    F.post('/api/room/checkname',{roomCode:c,name:n}).then(function(r){if(r&&r.ok&&r.taken){shake(F.$('#nameF'));say('“'+n+'” is taken — you’ll board as “'+n+' 2”, or add a team.');}}).catch(function(){});});
+  pass.addEventListener('submit',function(e){
+    e.preventDefault();if(busy)return;if(resumeTimer){clearTimeout(resumeTimer);resumeTimer=null;}
+    var n=name.value.trim().replace(/\s+/g,' '),c=code(),t=team.value.trim().replace(/\s+/g,' ');
+    if(c.length!==5){shake(F.$('.flap-wrap'));cells[c.length].focus();return say('The room code is 5 characters.',true);}
+    if(!n){shake(F.$('#nameF'));name.focus();return say('Pick a name so the board knows you.',true);}
+    busy=true;go.disabled=true;go.firstChild.textContent='Boarding…';say('');
+    var reuse=(F.store.get('ffa-room')===c)?F.store.get('ffa-pid'):null;
+    F.post('/api/room/join',{roomCode:c,name:n,team:t||null,sidekick:sk,playerId:reuse}).then(function(r){
+      if(!r||!r.playerId)throw new Error('Could not join. Try again.');
+      F.store.set('ffa-room',c);F.store.set('ffa-pid',r.playerId);F.store.set('ffa-name',r.name);F.store.set('ffa-sk',sk);
+      if(t)F.store.set('ffa-team',t);else F.store.del('ffa-team');
+      A.syncClock();
+      /* tear the perforated stub, then portal into /play */
+      pass.classList.add('torn');SFX.tear();A.buzz(20);
+      if(r.renamed)say('That name was taken — you’re “'+r.name+'” on the board.');
+      setTimeout(function(){var p=document.createElement('div');p.className='portal';document.body.appendChild(p);SFX.whoosh();},300);
+      setTimeout(function(){location.href='/play';},r.renamed?1500:950);
+    }).catch(function(err){busy=false;go.disabled=false;go.firstChild.textContent='Board';
+      if(err.status===404)shake(F.$('.flap-wrap'));say(err.message||'Could not join. Try again.',true);});});
+})();
+</script>
+</body>
+</html>

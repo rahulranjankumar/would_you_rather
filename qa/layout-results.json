@@ -1,0 +1,564 @@
+[
+ {
+  "test": "landing 360x640: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 360x640: sticker (no WebGL) crew",
+  "pass": true,
+  "info": {
+   "gl": false,
+   "pocket": true
+  }
+ },
+ {
+  "test": "join 360x640: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 545,
+   "h": 640
+  }
+ },
+ {
+  "test": "play 360x640, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 444,
+   "dockTop": 582,
+   "h": 644,
+   "fit": "0.94",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 360x640, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 448,
+   "dockTop": 578,
+   "h": 640,
+   "fit": "0.88",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 360x640, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 461,
+   "dockTop": 578,
+   "h": 640,
+   "fit": "0.7",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "360x640: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 390x844: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 390x844: sticker (no WebGL) crew",
+  "pass": true,
+  "info": {
+   "gl": false,
+   "pocket": true
+  }
+ },
+ {
+  "test": "join 390x844: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 696,
+   "h": 844
+  }
+ },
+ {
+  "test": "play 390x844, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 546,
+   "dockTop": 785,
+   "h": 847,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 390x844, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 580,
+   "dockTop": 785,
+   "h": 847,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 390x844, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 607,
+   "dockTop": 782,
+   "h": 844,
+   "fit": "0.94",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "390x844: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 412x915: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 412x915: sticker (no WebGL) crew",
+  "pass": true,
+  "info": {
+   "gl": false,
+   "pocket": true
+  }
+ },
+ {
+  "test": "join 412x915: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 767,
+   "h": 915
+  }
+ },
+ {
+  "test": "play 412x915, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 537,
+   "dockTop": 853,
+   "h": 915,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 412x915, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 594,
+   "dockTop": 853,
+   "h": 915,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 412x915, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 697,
+   "dockTop": 853,
+   "h": 915,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "412x915: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 1366x768: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 1366x768: 3D crew",
+  "pass": true,
+  "info": {
+   "gl": true,
+   "pocket": false
+  }
+ },
+ {
+  "test": "join 1366x768: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 575,
+   "h": 768
+  }
+ },
+ {
+  "test": "play 1366x768, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 608,
+   "dockTop": 706,
+   "h": 768,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1366x768, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 618,
+   "dockTop": 706,
+   "h": 768,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1366x768, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 643,
+   "dockTop": 706,
+   "h": 768,
+   "fit": "0.88",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "1366x768: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 1536x673: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 1536x673: 3D crew",
+  "pass": true,
+  "info": {
+   "gl": true,
+   "pocket": false
+  }
+ },
+ {
+  "test": "join 1536x673: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 521,
+   "h": 673
+  }
+ },
+ {
+  "test": "play 1536x673, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 533,
+   "dockTop": 611,
+   "h": 673,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1536x673, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 545,
+   "dockTop": 611,
+   "h": 673,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1536x673, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 559,
+   "dockTop": 611,
+   "h": 673,
+   "fit": "0.76",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "1536x673: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 1920x1080: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 1920x1080: 3D crew",
+  "pass": true,
+  "info": {
+   "gl": true,
+   "pocket": false
+  }
+ },
+ {
+  "test": "join 1920x1080: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 736,
+   "h": 1080
+  }
+ },
+ {
+  "test": "play 1920x1080, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 814,
+   "dockTop": 1018,
+   "h": 1080,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1920x1080, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 812,
+   "dockTop": 1018,
+   "h": 1080,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1920x1080, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 904,
+   "dockTop": 1018,
+   "h": 1080,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "1920x1080: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "big screen 1280x720: 4 options on screen",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "bottom": 465,
+   "h": 720
+  }
+ },
+ {
+  "test": "host 1280x720: no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "big screen 1366x768: 4 options on screen",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "bottom": 496,
+   "h": 768
+  }
+ },
+ {
+  "test": "host 1366x768: no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "big screen 1920x1080: 4 options on screen",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "bottom": 698,
+   "h": 1080
+  }
+ },
+ {
+  "test": "host 1920x1080: no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 768x1024: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 768x1024: 3D crew",
+  "pass": true,
+  "info": {
+   "gl": true,
+   "pocket": false
+  }
+ },
+ {
+  "test": "join 768x1024: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 699,
+   "h": 1024
+  }
+ },
+ {
+  "test": "play 768x1024, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 738,
+   "dockTop": 962,
+   "h": 1024,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 768x1024, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 719,
+   "dockTop": 962,
+   "h": 1024,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 768x1024, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 787,
+   "dockTop": 962,
+   "h": 1024,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "768x1024: no page errors",
+  "pass": true,
+  "info": []
+ },
+ {
+  "test": "landing 1280x600: join button in first view, no h-scroll",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "landing 1280x600: 3D crew",
+  "pass": true,
+  "info": {
+   "gl": true,
+   "pocket": false
+  }
+ },
+ {
+  "test": "join 1280x600: Board button fully visible without scrolling",
+  "pass": true,
+  "info": {
+   "b": 471,
+   "h": 600
+  }
+ },
+ {
+  "test": "play 1280x600, 2 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 2,
+   "lastBottom": 482,
+   "dockTop": 538,
+   "h": 600,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1280x600, 3 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 3,
+   "lastBottom": 490,
+   "dockTop": 538,
+   "h": 600,
+   "fit": "1",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "play 1280x600, 4 options: all cards on screen above the dock",
+  "pass": true,
+  "info": {
+   "n": 4,
+   "lastBottom": 493,
+   "dockTop": 538,
+   "h": 600,
+   "fit": "0.82",
+   "clip": false,
+   "hs": false
+  }
+ },
+ {
+  "test": "1280x600: no page errors",
+  "pass": true,
+  "info": []
+ }
+]

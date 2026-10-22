@@ -1,0 +1,38 @@
+{
+  "players": 700,
+  "rounds": 3,
+  "v27": {
+    "profile": "v27",
+    "joined": 700,
+    "lobbyFramesTotal": 25,
+    "lobbyFramesPerSecPeak": 5,
+    "joinStormPeakRps": 436,
+    "q1Match": true,
+    "q2Match": true,
+    "q3Match": true,
+    "votesCounted": "2100/2100",
+    "voteAll": true,
+    "votePeakRps": 264,
+    "cpuPerQuestion": 0.343,
+    "clampMinOk": true,
+    "clampMaxOk": true
+  },
+  "v25": {
+    "profile": "v25",
+    "joined": 700,
+    "lobbyFramesTotal": 700,
+    "lobbyFramesPerSecPeak": 371,
+    "joinStormPeakRps": 848,
+    "q1Match": true,
+    "q2Match": true,
+    "q3Match": true,
+    "votesCounted": "2100/2100",
+    "voteAll": true,
+    "votePeakRps": 336,
+    "cpuPerQuestion": 0.317
+  },
+  "votePeakDrop": 0.214,
+  "joinPeakDrop": 0.486,
+  "overallPeakDrop": 0.486,
+  "cpuRatio": 1.082
+}

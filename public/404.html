@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05030F">
+<title>404 — The crew is fixing it · Fun Friday Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css?v=29">
+<link rel="stylesheet" href="/assets/arena.css?v=29">
+<style>
+body{overflow-x:hidden}
+.e{position:relative;z-index:2;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.e .k{font:500 12px var(--f-mono);letter-spacing:.24em;text-transform:uppercase;color:var(--mist)}
+.e h1{font:400 clamp(90px,18vw,240px)/.85 var(--f-disp);margin:10px 0 6px;letter-spacing:-.02em}
+.e p{font:450 16px/1.6 var(--f-ui);color:var(--mist);max-width:440px;margin:0 0 6px}
+.stagex{position:relative;width:min(720px,100%);height:clamp(170px,30vh,260px);margin:10px 0 18px}
+.stagex .crew-band{position:absolute;inset:0}
+</style>
+</head>
+<body>
+<main class="e">
+  <div class="k">Error 404 · page not found</div>
+  <h1>404</h1>
+  <p>The crew is fixing the website. Boss Bean wants an ETA. Noodle says it works on his machine.</p>
+  <div class="stagex" id="st"></div>
+  <a class="cta" href="/"><b style="font:400 20px var(--f-disp);text-transform:uppercase">Back to the Arena</b><span class="cta__orb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg></span></a>
+  <p class="mono-link" style="margin-top:22px"><span class="credit-mark">Made by PPA Warriors</span></p>
+</main>
+<script src="/assets/perf.js?v=29"></script><script src="/assets/sfx.js?v=29"></script><script src="/assets/fx.js?v=29"></script>
+<script src="/assets/river.js?v=29"></script><script src="/assets/toy3d.js?v=29"></script>
+<script src="/assets/crew.js?v=30"></script><script src="/assets/arena.js?v=29"></script>
+<script>Arena.boot({});var s=Crew.mount(document.getElementById('st'),{track:true});s.loopGroup('loop404',200,400);</script>
+</body>
+</html>

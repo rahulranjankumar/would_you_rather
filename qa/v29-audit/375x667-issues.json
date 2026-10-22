@@ -1,0 +1,121 @@
+{
+ "issues": {
+  "01-landing": [
+   [
+    "text-out",
+    ".mc__p \"One right answer. Fast\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Agree or disagree with\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Guess the movie from f\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Five-second questions.\" text runs off screen"
+   ]
+  ],
+  "02-join": [],
+  "13-404": [],
+  "03-host-setup": [],
+  "04-play-lobby": [],
+  "05-screen-lobby": [
+   [
+    "text-out",
+    ".tile \"NE\nNeha\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"AR\nArjun\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"PR\nPriya\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"VI\nVikram\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"SA\nSana\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"KW\nKabir with a very l\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".tile \"RA\nRahul\" text runs off screen"
+   ]
+  ],
+  "06-host-lobby": [
+   [
+    "small-tap",
+    "#bEdit.hc-cb \"Edit Questions\" tap target 166x31"
+   ],
+   [
+    "small-tap",
+    "#bRestart.hc-cb \"Restart Game\" tap target 166x31"
+   ],
+   [
+    "small-tap",
+    "#bEnd.hc-cb.bad \"End Game\" tap target 166x31"
+   ]
+  ],
+  "07-play-question": [],
+  "08-screen-question": [],
+  "09-host-question": [],
+  "10-play-locked": [],
+  "11-play-reveal": [
+   [
+    "offscreen-y",
+    ".brandbar \"Fun Friday Arena\" is cut off vertically (-174..-140)"
+   ]
+  ],
+  "12-screen-reveal": [],
+  "14-host-reveal": [],
+  "15-play-over": [
+   [
+    "covered",
+    ".brandbar \"Fun Friday Arena\" is covered by .cur \"\""
+   ],
+   [
+    "covered",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "covered",
+    ".gbtn \"Full report\" is covered by #wrCv.wr-cv \"\""
+   ],
+   [
+    "covered",
+    ".mute-btn \"Toggle sound\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "overlap",
+    "#wrReport.gbtn \"Full report\" overlaps .mute-btn \"Toggle sound\""
+   ]
+  ],
+  "16-screen-over": [],
+  "17-report": [],
+  "18-play-wyr-reading": [],
+  "19-play-wyr-answer": []
+ },
+ "errors": []
+}

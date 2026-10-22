@@ -1,0 +1,146 @@
+[
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Cameras-on should be optional in every internal call.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Friday afternoon deploys are fine if your tests are good.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "A meeting without an agenda should be cancelled automatically.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Reply-all should require a confirmation pop-up.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "The best ideas happen at the coffee machine, not in workshops.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Dark mode is the only acceptable mode.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Every stand-up could be a Teams message.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Spreadsheets are the most powerful software ever made.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Chai beats coffee for the 4 PM slump.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "'Quick call?' is never quick.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Emojis in work chat make teams more productive.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Documentation is more valuable than code.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Hybrid beats fully remote AND fully in-office.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "Ctrl+Z should work in real life.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "The office playlist should be decided by vote.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ },
+ {
+  "round": "Hot Takes",
+  "category": "Hot take",
+  "prompt": "A five-minute buffer between meetings should be mandatory.",
+  "options": [
+   "Agree",
+   "Disagree"
+  ]
+ }
+]

@@ -1,0 +1,308 @@
+{
+ "issues": {
+  "01-landing": [
+   [
+    "overlap",
+    "#joinBtn.cta.join \"I'M PLAYING\nJOIN THE A\" overlaps .mute-btn \"Toggle sound\""
+   ],
+   [
+    "text-out",
+    ".mc__p \"One right answer. Fast\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Agree or disagree with\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Guess the movie from f\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Five-second questions.\" text runs off screen"
+   ]
+  ],
+  "02-join": [],
+  "13-404": [],
+  "03-host-setup": [
+   [
+    "small-tap",
+    ".on \"Would You Rather\" tap target 156x31"
+   ],
+   [
+    "small-tap",
+    " \"Quiz\" tap target 62x31"
+   ],
+   [
+    "small-tap",
+    " \"Hot Takes\" tap target 99x31"
+   ],
+   [
+    "small-tap",
+    " \"Emoji Decode\" tap target 126x31"
+   ],
+   [
+    "small-tap",
+    " \"Speed Round\" tap target 124x31"
+   ],
+   [
+    "small-tap",
+    ".on \"Leaderboard\" tap target 147x31"
+   ],
+   [
+    "small-tap",
+    " \"Just for fun\" tap target 136x31"
+   ],
+   [
+    "small-tap",
+    ".on \"Free change\" tap target 142x31"
+   ],
+   [
+    "small-tap",
+    " \"Must lock in\" tap target 141x31"
+   ],
+   [
+    "small-tap",
+    " \"Off\" tap target 110x31"
+   ],
+   [
+    "small-tap",
+    " \"3s\" tap target 105x31"
+   ],
+   [
+    "small-tap",
+    ".on \"5s\" tap target 105x31"
+   ],
+   [
+    "small-tap",
+    " \"8s\" tap target 105x31"
+   ],
+   [
+    "small-tap",
+    " \"Custom\" tap target 142x31"
+   ]
+  ],
+  "04-play-lobby": [],
+  "05-screen-lobby": [],
+  "06-host-lobby": [
+   [
+    "small-tap",
+    "#bEdit.hc-cb \"Edit Questions\" tap target 198x29"
+   ],
+   [
+    "small-tap",
+    "#bRestart.hc-cb \"Restart Game\" tap target 198x29"
+   ],
+   [
+    "small-tap",
+    "#bEnd.hc-cb.bad \"End Game\" tap target 198x29"
+   ]
+  ],
+  "07-play-question": [
+   [
+    "offscreen-y",
+    "#lockBtn.lockbtn \"Lock it in\" is cut off vertically (388..440)"
+   ],
+   [
+    "overlap",
+    ".popt \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude02\""
+   ],
+   [
+    "overlap",
+    ".popt \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udd25\""
+   ],
+   [
+    "overlap",
+    ".popt \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude31\""
+   ],
+   [
+    "overlap",
+    ".popt \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udc4f\""
+   ],
+   [
+    "overlap",
+    ".popt \"D\nSystem Quality Langu\" overlaps  \"\ud83d\udc9c\""
+   ],
+   [
+    "overlap",
+    ".popt \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude0e\""
+   ],
+   [
+    "overlap",
+    ".popt \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude1c\""
+   ],
+   [
+    "overlap",
+    ".popt \"D\nSystem Quality Langu\" overlaps  \"\ud83e\udd7a\""
+   ],
+   [
+    "overlap",
+    ".popt \"D\nSystem Quality Langu\" overlaps .mute-btn \"Toggle sound\""
+   ]
+  ],
+  "08-screen-question": [],
+  "09-host-question": [],
+  "10-play-locked": [
+   [
+    "offscreen-y",
+    "#lockBtn.lockbtn \"Locked in\" is cut off vertically (388..440)"
+   ],
+   [
+    "overlap",
+    ".popt.wait \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude02\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udd25\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude31\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udc4f\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"D\nSystem Quality Langu\" overlaps  \"\ud83d\udc9c\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude0e\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude1c\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"D\nSystem Quality Langu\" overlaps  \"\ud83e\udd7a\""
+   ],
+   [
+    "overlap",
+    ".popt.wait \"D\nSystem Quality Langu\" overlaps .mute-btn \"Toggle sound\""
+   ]
+  ],
+  "11-play-reveal": [
+   [
+    "offscreen-y",
+    ".popt.showres \"C\nSoftware Query Logic\" is cut off vertically (334..452)"
+   ],
+   [
+    "offscreen-y",
+    ".popt.showres \"D\nSystem Quality Langu\" is cut off vertically (334..452)"
+   ],
+   [
+    "overlap",
+    ".popt.showres \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude02\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udd25\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"C\nSoftware Query Logic\" overlaps  \"\ud83d\ude31\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"C\nSoftware Query Logic\" overlaps  \"\ud83d\udc4f\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"D\nSystem Quality Langu\" overlaps  \"\ud83d\udc9c\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude0e\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"D\nSystem Quality Langu\" overlaps  \"\ud83d\ude1c\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"D\nSystem Quality Langu\" overlaps  \"\ud83e\udd7a\""
+   ],
+   [
+    "overlap",
+    ".popt.showres \"D\nSystem Quality Langu\" overlaps .mute-btn \"Toggle sound\""
+   ]
+  ],
+  "12-screen-reveal": [],
+  "14-host-reveal": [],
+  "15-play-over": [
+   [
+    "covered",
+    ".brandbar \"accenture\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "covered",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" is covered by #wrReport.gbtn \"Full report\""
+   ],
+   [
+    "covered",
+    ".gbtn \"Full report\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "covered",
+    ".mute-btn \"Toggle sound\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "overlap",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" overlaps #wrSave.gbtn \"Save image\""
+   ],
+   [
+    "overlap",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" overlaps #wrShare.gbtn \"Share\""
+   ],
+   [
+    "overlap",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" overlaps #wrReport.gbtn \"Full report\""
+   ],
+   [
+    "overlap",
+    ".gbtn \"Full report\" overlaps #wrReport.gbtn \"Full report\""
+   ]
+  ],
+  "16-screen-over": [],
+  "17-report": [
+   [
+    "covered",
+    "#btnCsv.glass.btn \"EXPORT CSV\" is covered by  \"\""
+   ],
+   [
+    "small-tap",
+    "#btnCsv.glass.btn \"EXPORT CSV\" tap target 144x30"
+   ],
+   [
+    "covered",
+    "#btnPrint.glass.btn \"PRINT / PDF\" is covered by  \"\""
+   ],
+   [
+    "small-tap",
+    "#btnPrint.glass.btn \"PRINT / PDF\" tap target 137x30"
+   ],
+   [
+    "covered",
+    ".glass.btn \"HOST\" is covered by  \"\""
+   ]
+  ],
+  "18-play-wyr-reading": [],
+  "19-play-wyr-answer": []
+ },
+ "errors": []
+}

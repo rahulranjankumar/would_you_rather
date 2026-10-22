@@ -1,0 +1,170 @@
+[
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🦁👑🌅🐗🎶",
+  "options": [
+   "The Lion King",
+   "Jungle Book",
+   "Madagascar",
+   "Zootopia"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🚢🧊💔🎻🌊",
+  "options": [
+   "Titanic",
+   "Life of Pi",
+   "Jaws",
+   "Dunkirk"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🏏🇮🇳🧔🏾‍♂️🌧️🐂",
+  "options": [
+   "Lagaan",
+   "83",
+   "Iqbal",
+   "Chak De! India"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🧙‍♂️💍🌋🧝‍♀️🗡️",
+  "options": [
+   "The Lord of the Rings",
+   "Harry Potter",
+   "The Hobbit",
+   "Narnia"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 👨‍🎓👨‍🎓👨‍🎓🎓🤪📸",
+  "options": [
+   "3 Idiots",
+   "Chhichhore",
+   "Student of the Year",
+   "Rang De Basanti"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🦖🏝️🧬🚙😱",
+  "options": [
+   "Jurassic Park",
+   "King Kong",
+   "Godzilla",
+   "Avatar"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🚂💃🏻🌻🇨🇭💐",
+  "options": [
+   "Dilwale Dulhania Le Jayenge",
+   "Kuch Kuch Hota Hai",
+   "Jab We Met",
+   "Veer-Zaara"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🕷️🧑🕸️🏙️🦸",
+  "options": [
+   "Spider-Man",
+   "Batman",
+   "Ant-Man",
+   "Iron Man"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 👻👻📞🚫🧪",
+  "options": [
+   "Ghostbusters",
+   "The Conjuring",
+   "Casper",
+   "Bhool Bhulaiyaa"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🤖❤️🌱🧹🚀",
+  "options": [
+   "WALL·E",
+   "Robots",
+   "Big Hero 6",
+   "Ra.One"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🏃‍♂️🍫🪶🦐🇺🇸",
+  "options": [
+   "Forrest Gump",
+   "The Terminal",
+   "Big",
+   "Cast Away"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 🐯🛶🌊🧒🏽",
+  "options": [
+   "Life of Pi",
+   "Moana",
+   "The Jungle Book",
+   "Cast Away"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: 👊🏽🔥🌾🌋🗡️",
+  "options": [
+   "Baahubali",
+   "RRR",
+   "KGF",
+   "Pushpa"
+  ],
+  "correct": 0
+ },
+ {
+  "round": "Emoji Decode",
+  "category": "Emoji decode",
+  "prompt": "Guess the movie: ❄️👸🏼⛄🏰🎶",
+  "options": [
+   "Frozen",
+   "Tangled",
+   "Brave",
+   "Cinderella"
+  ],
+  "correct": 0
+ }
+]

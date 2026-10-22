@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: fun-friday-arena
+    runtime: node
+    plan: free
+    buildCommand: "echo 'no build step - zero dependencies'"
+    startCommand: "node server.js"
+    healthCheckPath: /healthz
+    envVars:
+      - key: MAX_PLAYERS
+        value: 700
+      # Join links/QR use RENDER_EXTERNAL_URL automatically (Render sets it).
+      # Set PUBLIC_URL only if you use a custom domain.

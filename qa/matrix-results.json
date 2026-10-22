@@ -1,0 +1,860 @@
+[
+ {
+  "test": "combo n=2 wyr lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0026769638061523438,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 wyr lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 1.946223497390747,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 wyr lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 2.276998519897461,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 quiz lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0019228458404541016,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 quiz lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 1.485776662826538,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 quiz lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 0.002329587936401367,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 quiz lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 2.03936505317688,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 wyr lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 0.003534555435180664,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 wyr lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 1.8424596786499023,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 wyr lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0020096302032470703,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=3 wyr lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 3,
+   "readLockedEarly": true,
+   "enabledAfter": 1.8742039203643799,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 quiz lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0024764537811279297,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 quiz lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 1.8112173080444336,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 quiz lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 0.04348182678222656,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 quiz lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 1.83013916015625,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 wyr lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0018944740295410156,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 wyr lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 2.1519675254821777,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 wyr lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0030994415283203125,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=4 wyr lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 4,
+   "readLockedEarly": true,
+   "enabledAfter": 2.198856830596924,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false,
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false,
+     false,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 quiz lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 0.010523080825805664,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false
+    ],
+    "miss": [
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 quiz lock=True read=3s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 3.0792038440704346,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false
+    ],
+    "miss": [
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 wyr lock=True read=0s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 0.0023725032806396484,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     false,
+     false
+    ],
+    "miss": [
+     false,
+     false
+    ],
+    "major": [
+     true,
+     false
+    ],
+    "verdict": "Against the crowd",
+    "locked": true
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "clock skew +6s, read 0s -> answers open on time and selectable",
+  "pass": true,
+  "info": {
+   "enabledAfter": 0.46432042121887207,
+   "phase": "Pick your answer \u2014 fast!"
+  }
+ },
+ {
+  "test": "clock skew +6s, read 3s -> answers open on time and selectable",
+  "pass": true,
+  "info": {
+   "enabledAfter": 2.6699535846710205,
+   "phase": "Pick your answer \u2014 fast!"
+  }
+ },
+ {
+  "test": "clock skew -6s, read 0s -> answers open on time and selectable",
+  "pass": true,
+  "info": {
+   "enabledAfter": 0.004462003707885742,
+   "phase": "Pick your answer \u2014 fast!"
+  }
+ },
+ {
+  "test": "clock skew -6s, read 3s -> answers open on time and selectable",
+  "pass": true,
+  "info": {
+   "enabledAfter": 3.3693835735321045,
+   "phase": "Pick your answer \u2014 fast!"
+  }
+ },
+ {
+  "test": "join mid-question -> sees question, can vote",
+  "pass": true,
+  "info": {
+   "total": 1,
+   "players": [
+    {
+     "seq": 1,
+     "name": "Late",
+     "score": 0,
+     "voted": true,
+     "locked": false,
+     "choice": 1
+    }
+   ]
+  }
+ },
+ {
+  "test": "reload after voting -> my pick is restored",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "host freeze -> phone shows frozen, resume continues",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "network drop -> reconnect overlay -> recovers",
+  "pass": true,
+  "info": {
+   "overlay": true,
+   "recovered": true
+  }
+ },
+ {
+  "test": "host restart -> back to lobby",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "auto-advance -> next question starts by itself",
+  "pass": true,
+  "info": "2"
+ },
+ {
+  "test": "game over -> Wrapped opens, spaceship cursor visible above it",
+  "pass": true,
+  "info": {
+   "open": true,
+   "ship": true
+  }
+ },
+ {
+  "test": "report page -> spaceship cursor",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "test": "combo n=2 quiz lock=False read=0s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 0.002660036087036133,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false
+    ],
+    "miss": [
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ },
+ {
+  "test": "combo n=2 quiz lock=False read=3s",
+  "pass": true,
+  "info": {
+   "cards": 2,
+   "readLockedEarly": true,
+   "enabledAfter": 2.7804977893829346,
+   "picked": true,
+   "counted": 3,
+   "state": {
+    "res": true,
+    "correct": [
+     true,
+     false
+    ],
+    "miss": [
+     false,
+     true
+    ],
+    "major": [
+     false,
+     false
+    ],
+    "verdict": "Not this time",
+    "locked": false
+   },
+   "errs": []
+  }
+ }
+]

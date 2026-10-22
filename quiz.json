@@ -1,0 +1,20 @@
+[
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"What does SQL stand for?","options":["Structured Query Language","Simple Question Language","Software Query Logic","System Quality Language"],"correct":0},
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"What does HTTP stand for?","options":["HyperText Transfer Protocol","High Transfer Text Protocol","HyperText Transmission Process","Host Transfer Text Protocol"],"correct":0},
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"In which year was the first iPhone released?","options":["2005","2007","2009","2010"],"correct":1},
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"Which of these is NOT a programming language?","options":["Python","Java","Photoshop","Ruby"],"correct":2},
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"What does API stand for?","options":["Application Programming Interface","Applied Program Index","Automated Process Integration","Advanced Protocol Instance"],"correct":0},
+ {"round":"Round 1: Tech Trivia","category":"Tech","prompt":"What does the C in CPU stand for?","options":["Core","Central","Compute","Control"],"correct":1},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"What is the capital of Australia?","options":["Sydney","Melbourne","Canberra","Perth"],"correct":2},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"How many continents are there?","options":["5","6","7","8"],"correct":2},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"Which is the largest planet in our solar system?","options":["Earth","Saturn","Jupiter","Neptune"],"correct":2},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"Which language has the most native speakers worldwide?","options":["English","Hindi","Mandarin Chinese","Spanish"],"correct":2},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"What is the smallest prime number?","options":["0","1","2","3"],"correct":2},
+ {"round":"Round 2: General Knowledge","category":"General","prompt":"Which ocean is the largest?","options":["Atlantic","Indian","Arctic","Pacific"],"correct":3},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"Which streaming platform produced Stranger Things?","options":["Amazon Prime","Netflix","Disney Plus","Hulu"],"correct":1},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"Who directed the film Inception?","options":["Steven Spielberg","Christopher Nolan","James Cameron","Denis Villeneuve"],"correct":1},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"Which band released the album Abbey Road?","options":["The Rolling Stones","The Beatles","Led Zeppelin","Pink Floyd"],"correct":1},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"In cricket, how many players from one team are on the field at once?","options":["9","10","11","12"],"correct":2},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"How many strings does a standard guitar have?","options":["4","5","6","7"],"correct":2},
+ {"round":"Round 3: Pop Culture","category":"Pop culture","prompt":"Which country hosted the 2016 Summer Olympics?","options":["China","Brazil","UK","Japan"],"correct":1}
+]

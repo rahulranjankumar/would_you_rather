@@ -1,0 +1,400 @@
+[
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-360x640.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-360x640.png"
+ },
+ {
+  "viewport": "360x640",
+  "pageerrors": []
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-390x844.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-390x844.png"
+ },
+ {
+  "viewport": "390x844",
+  "pageerrors": []
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-lobby-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-question-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-over-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "host-768x1024.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "report-768x1024.png"
+ },
+ {
+  "hscroll": true,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-768x1024.png"
+ },
+ {
+  "viewport": "768x1024",
+  "pageerrors": []
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-lobby-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-question-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-over-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "host-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "report-1280x720.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-1280x720.png"
+ },
+ {
+  "viewport": "1280x720",
+  "pageerrors": [
+   "click Locator.click: Timeout 3000ms exceeded.\nCall log:\n  - waiting for locator(\".popt"
+  ]
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-lobby-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-question-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-over-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "host-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "report-1536x864.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-1536x864.png"
+ },
+ {
+  "viewport": "1536x864",
+  "pageerrors": []
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "landing-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "join-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-lobby-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-question-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-reveal-rebel-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "play-wrapped-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-lobby-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-question-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "screen-over-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "host-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "report-1920x1080.png"
+ },
+ {
+  "hscroll": false,
+  "overlap": [],
+  "clipped": [],
+  "shot": "404-1920x1080.png"
+ },
+ {
+  "viewport": "1920x1080",
+  "pageerrors": []
+ }
+]

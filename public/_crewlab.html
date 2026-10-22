@@ -1,0 +1,5 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/assets/theme.css"><link rel="stylesheet" href="/assets/arena.css">
+<style>body{margin:0;background:#120a2a}#b{position:absolute;left:0;right:0;bottom:30px;height:60vh}</style></head><body><div id="b"></div>
+<script src="/assets/perf.js"></script><script src="/assets/sfx.js"></script><script src="/assets/toy3d.js"></script><script src="/assets/crew.js"></script>
+<script>var st=Crew.mount(document.getElementById('b'),{eggs:false,track:false,home:{momo:.3,noodle:.5,bean:.7}});window.st=st;
+var q=new URLSearchParams(location.search);if(q.get('s'))setTimeout(function(){st.play(q.get('s'))},150);</script></body></html>

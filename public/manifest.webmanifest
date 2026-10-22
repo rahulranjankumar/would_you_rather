@@ -1,0 +1,13 @@
+{
+  "name": "Fun Friday Arena",
+  "short_name": "Arena",
+  "description": "Accenture × Currys Fun Friday — made by PPA Warriors",
+  "start_url": "/join",
+  "display": "fullscreen",
+  "background_color": "#05030F",
+  "theme_color": "#05030F",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "/assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

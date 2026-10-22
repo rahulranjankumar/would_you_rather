@@ -1,0 +1,82 @@
+{
+ "issues": {
+  "01-landing": [
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Guess the movie from f\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__new \"NEW\" text runs off screen"
+   ],
+   [
+    "text-out",
+    ".mc__p \"Five-second questions.\" text runs off screen"
+   ]
+  ],
+  "02-join": [],
+  "13-404": [],
+  "03-host-setup": [
+   [
+    "offscreen-y",
+    "#tAll \"Select all\" is cut off vertically (820..849)"
+   ],
+   [
+    "offscreen-y",
+    "#tNone \"None\" is cut off vertically (820..849)"
+   ],
+   [
+    "offscreen-y",
+    "#tInv \"Invert\" is cut off vertically (820..849)"
+   ],
+   [
+    "offscreen-y",
+    "#tUp \"Upload JSON\" is cut off vertically (820..849)"
+   ],
+   [
+    "offscreen-y",
+    "#createBtn.hc-btn \"CREATE ROOM\" is cut off vertically (1104..1150)"
+   ]
+  ],
+  "04-play-lobby": [],
+  "05-screen-lobby": [],
+  "06-host-lobby": [],
+  "07-play-question": [],
+  "08-screen-question": [],
+  "09-host-question": [],
+  "10-play-locked": [],
+  "11-play-reveal": [],
+  "12-screen-reveal": [],
+  "14-host-reveal": [],
+  "15-play-over": [
+   [
+    "covered",
+    ".brandbar \"accenture\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "covered",
+    "#wrGo.cta.cta--lime \"Your Fun Friday, Wrapp\" is covered by #wrCv.wr-cv \"\""
+   ],
+   [
+    "covered",
+    ".gbtn \"Full report\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ],
+   [
+    "covered",
+    ".mute-btn \"Toggle sound\" is covered by #wrapped.wrapped.on \"\u00d7\nSave image\nShare\nFul\""
+   ]
+  ],
+  "16-screen-over": [],
+  "17-report": [],
+  "18-play-wyr-reading": [],
+  "19-play-wyr-answer": []
+ },
+ "errors": [
+  "goto /screen?room=EY34T Page.goto: Timeout 25000ms exceeded.\nCall log:\n  - navigatin",
+  "goto /play Page.goto: Timeout 25000ms exceeded.\nCall log:\n  - navigatin"
+ ]
+}

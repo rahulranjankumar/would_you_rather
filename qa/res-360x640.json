@@ -1,0 +1,74 @@
+{
+ "360x640": {
+  "landing": {
+   "hscroll": false,
+   "vscroll": true,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 1
+  },
+  "join": {
+   "hscroll": false,
+   "vscroll": false,
+   "crew3d": 0,
+   "pocket": 0,
+   "allTapVisible": true,
+   "n": 1
+  },
+  "question": {
+   "hscroll": false,
+   "vscroll": false,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 4
+  },
+  "clicked": true,
+  "reveal": {
+   "hscroll": false,
+   "vscroll": true,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 5
+  },
+  "errors": []
+ },
+ "390x844": {
+  "landing": {
+   "hscroll": false,
+   "vscroll": true,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 1
+  },
+  "join": {
+   "hscroll": false,
+   "vscroll": false,
+   "crew3d": 0,
+   "pocket": 0,
+   "allTapVisible": true,
+   "n": 1
+  },
+  "question": {
+   "hscroll": false,
+   "vscroll": false,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 4
+  },
+  "clicked": true,
+  "reveal": {
+   "hscroll": false,
+   "vscroll": true,
+   "crew3d": 0,
+   "pocket": 1,
+   "allTapVisible": true,
+   "n": 5
+  },
+  "errors": []
+ }
+}

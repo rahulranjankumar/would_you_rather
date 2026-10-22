@@ -1,0 +1,21 @@
+{
+  "players": 700,
+  "rounds": 3,
+  "v27": {
+    "profile": "v27",
+    "joined": 700,
+    "lobbyFramesTotal": 25,
+    "lobbyFramesPerSecPeak": 5,
+    "joinStormPeakRps": 424,
+    "q1Match": true,
+    "q2Match": false,
+    "q3Match": true,
+    "votesCounted": "2100/2100",
+    "voteAll": true,
+    "votePeakRps": 328,
+    "cpuPerQuestion": 0.287,
+    "clampMinOk": true,
+    "clampMaxOk": true
+  },
+  "v25": null
+}

@@ -1,0 +1,151 @@
+/** End-to-end game play-through over the real endpoints + SSE. */
+'use strict';
+const http=require('http');
+const BASE='http://127.0.0.1:3000';
+const agent=new http.Agent({keepAlive:true,maxSockets:256});
+const post=(p,b)=>new Promise((r)=>{
+  const d=Buffer.from(JSON.stringify(b));
+  const q=http.request(new URL(BASE+p),{method:'POST',agent,headers:{'Content-Type':'application/json','Content-Length':d.length}},(x)=>{
+    let s='';x.on('data',(c)=>(s+=c));
+    x.on('end',()=>{try{r(s?Object.assign(JSON.parse(s),{_s:x.statusCode}):{_s:x.statusCode});}catch{r({_s:x.statusCode});}});});
+  q.on('error',(e)=>r({err:e.message}));q.write(d);q.end();});
+const get=(p)=>new Promise((r)=>http.get(new URL(BASE+p),{agent},(x)=>{
+  let s='';x.on('data',(c)=>(s+=c));x.on('end',()=>{try{r(JSON.parse(s));}catch{r({});}});}).on('error',()=>r({})));
+const sleep=(ms)=>new Promise((r)=>setTimeout(r,ms));
+function listen(room,role,pid,on){
+  const url=BASE+'/api/events?room='+room+'&role='+role+(pid?'&playerId='+pid:'');
+  return http.get(new URL(url),{agent},(res)=>{
+    let buf='';
+    res.on('data',(ch)=>{buf+=ch.toString();let i;
+      while((i=buf.indexOf('\n\n'))>=0){const raw=buf.slice(0,i);buf=buf.slice(i+2);
+        const m=/^event: (.+)$/m.exec(raw),d=/^data: (.+)$/m.exec(raw);
+        if(m){let p={};try{p=d?JSON.parse(d[1]):{};}catch{}on(m[1],p);}}});});}
+let pass=0,fail=0;
+const check=(l,c,x)=>{if(c){pass++;console.log('   PASS  '+l);}else{fail++;console.log('   FAIL  '+l+(x?'  -> '+JSON.stringify(x):''));}};
+(async()=>{
+  console.log('\n=== FULL GAME PLAY-THROUGH ===\n');
+  console.log('1. Host sets up the game');
+  const c=await post('/api/room/create',{gameType:'wyr',scoringMode:'points',lockIn:false,timerMs:6000,readMs:500,enabled:[0,1,2]});
+  check('room created',!!c.roomCode,c);
+  check('3 questions selected',c.questionCount===3,c.questionCount);
+  const ROOM=c.roomCode,TOKEN=c.hostToken;
+  console.log('   room='+ROOM);
+  const he=[],se=[];
+  const hb=listen(ROOM,'host',null,(e,d)=>he.push([e,d]));
+  const sb=listen(ROOM,'screen',null,(e,d)=>se.push([e,d]));
+  await sleep(300);
+  check('host got state:sync',he.some(x=>x[0]==='state:sync'));
+  check('screen got state:sync',se.some(x=>x[0]==='state:sync'));
+  console.log('\n2. Players join');
+  const names=['Aarav','Riya','Karan','Neha','Aarav'],players=[];
+  for(const n of names){const r=await post('/api/room/join',{roomCode:ROOM,name:n});players.push(r);}
+  check('5 players joined',players.every(p=>p.playerId));
+  check('duplicate name auto-suffixed',players[4].name==='Aarav 2',players[4].name);
+  const dup=await post('/api/room/checkname',{roomCode:ROOM,name:'Riya'});
+  check('checkname flags a taken name',dup.ok&&dup.taken,dup);
+  const pe=players.map(()=>[]);
+  const pb=players.map((p,i)=>listen(ROOM,'player',p.playerId,(e,d)=>pe[i].push([e,d])));
+  await sleep(300);
+  check('every player got state:sync',pe.every(ev=>ev.some(x=>x[0]==='state:sync')));
+  const ros=await get('/api/roster?room='+ROOM+'&hostToken='+TOKEN);
+  check('roster shows 5',ros.total===5,ros.total);
+  check('host saw lobby:update',he.some(x=>x[0]==='lobby:update'));
+  console.log('\n3. Playing all questions');
+  for(let qi=1;qi<=3;qi++){
+    const before=he.length;
+    await post('/api/host',{roomCode:ROOM,hostToken:TOKEN,action:'start'});
+    await sleep(250);
+    const shown=he.slice(before).find(x=>x[0]==='question:show');
+    check('Q'+qi+' question:show broadcast',!!shown);
+    if(shown)check('Q'+qi+' numbered correctly',shown[1].questionNumber===qi,shown[1].questionNumber);
+    const early=await post('/api/vote',{r:ROOM,p:players[0].playerId,c:0});
+    check('Q'+qi+' vote blocked during reading time',early._s===400,early);
+    await sleep(500);
+    for(let i=0;i<players.length;i++){
+      await sleep(40);
+      const v=await post('/api/vote',{r:ROOM,p:players[i].playerId,c:i%2});
+      if(i===0)check('Q'+qi+' vote accepted',v._s===204,v);}
+    const pBefore=pe[0].length;
+    await post('/api/host',{roomCode:ROOM,hostToken:TOKEN,action:'reveal'});
+    await sleep(1550); /* v28.2: reveal waits out the 1.2 s grace for in-flight answers */
+    check('Q'+qi+' results revealed',he.some(x=>x[0]==='results:reveal'));
+    const pr=pe[0].slice(pBefore).find(x=>x[0]==='results:reveal');
+    check('Q'+qi+' players received results',!!pr);
+    if(pr)check('Q'+qi+' all 5 votes counted',(pr[1].counts||[]).reduce((a,b)=>a+b,0)===5,pr[1].counts);
+    check('Q'+qi+' screen received results',se.some(x=>x[0]==='results:reveal'));}
+  console.log('\n4. Scoring');
+  const lb=he.filter(x=>x[0]==='leaderboard:update').pop();
+  check('leaderboard broadcast',!!lb);
+  const scored=(lb?lb[1].top:[]).filter(p=>p.score>0);
+  check('players have scored',scored.length>0);
+  if(scored.length)console.log('   top: '+scored.slice(0,3).map(p=>p.name+' '+p.score).join(', '));
+  console.log('\n5. Ending the game');
+  await post('/api/host',{roomCode:ROOM,hostToken:TOKEN,action:'next'});
+  await sleep(300);
+  const over=he.find(x=>x[0]==='game:over');
+  check('game:over fired after last question',!!over);
+  check('players received game:over',pe[0].some(x=>x[0]==='game:over'));
+  check('final board has all 5',over&&over[1].leaderboard.length===5);
+  console.log('\n6. Report');
+  const rep=await get('/api/report?room='+ROOM);
+  check('report generated',!!rep.roomCode);
+  check('report has every question',rep.totalQuestions===3,rep.totalQuestions);
+  check('report counts all players',rep.totalPlayers===5,rep.totalPlayers);
+  check('report has superlatives',!!(rep.superlatives&&rep.superlatives.fastest));
+  check('report question has per-question fastest',rep.questions[0].fastest!==undefined);
+  console.log('\n7. Restart');
+  await post('/api/host',{roomCode:ROOM,hostToken:TOKEN,action:'restart'});
+  await sleep(300);
+  const rs=he.find(x=>x[0]==='game:restart');
+  check('game:restart broadcast',!!rs);
+  check('restart carries totalQuestions',rs&&rs[1].totalQuestions===3);
+  const after=await get('/api/roster?room='+ROOM+'&hostToken='+TOKEN);
+  check('players stayed joined',after.total===5);
+  check('scores reset to zero',after.players.every(p=>p.score===0));
+  console.log('\n8. Guard rails');
+  check('bad host token rejected',(await post('/api/host',{roomCode:ROOM,hostToken:'x',action:'start'}))._s===403);
+  check('join unknown room rejected',(await post('/api/room/join',{roomCode:'ZZZZZ',name:'G'}))._s===404);
+  check('roster needs host token',!!(await get('/api/roster?room='+ROOM+'&hostToken=wrong')).error);
+  check('unknown player vote rejected',(await post('/api/vote',{r:ROOM,p:'dead',c:0}))._s===400);
+  const v1=await post('/api/room/verify',{roomCode:ROOM});
+  check('verify works without host token',v1.ok===true);
+  const v2=await post('/api/room/verify',{roomCode:ROOM,playerId:players[0].playerId});
+  check('verify reports a known player',v2.known===true&&v2.name==='Aarav',v2);
+  console.log('\n9. Quiz mode + lock-in');
+  const qz=await post('/api/room/create',{gameType:'quiz',scoringMode:'points',lockIn:true,timerMs:5000,readMs:200,enabled:[0]});
+  const qp=await post('/api/room/join',{roomCode:qz.roomCode,name:'Quizzer'});
+  const qp2=await post('/api/room/join',{roomCode:qz.roomCode,name:'Waverer'});
+  const qb=listen(qz.roomCode,'host',null,()=>{});
+  await post('/api/host',{roomCode:qz.roomCode,hostToken:qz.hostToken,action:'start'});
+  await sleep(350);
+  const bank=await get('/api/bank?type=quiz');
+  const correct=bank.questions[0].correct;
+  await post('/api/vote',{r:qz.roomCode,p:qp.playerId,c:correct,lock:true});
+  await post('/api/vote',{r:qz.roomCode,p:qp2.playerId,c:correct});
+  check('locked answer cannot be changed',(await post('/api/vote',{r:qz.roomCode,p:qp.playerId,c:correct===0?1:0}))._s===400);
+  await post('/api/host',{roomCode:qz.roomCode,hostToken:qz.hostToken,action:'reveal'});
+  await sleep(1500);
+  const qr=await get('/api/roster?room='+qz.roomCode+'&hostToken='+qz.hostToken);
+  check('locked-in correct answer scored',qr.players.find(p=>p.name==='Quizzer').score>0);
+  check('unlocked answer scored nothing in lock-in mode',qr.players.find(p=>p.name==='Waverer').score===0);
+  qb.destroy();
+  console.log('\n10. Auto-advance (host forgot to press Next)');
+  const au=await post('/api/room/create',{gameType:'wyr',timerMs:5000,readMs:0,autoNextMs:5000,enabled:[0,1]});
+  check('autoNextMs stored on room',au.settings.autoNextMs===5000,au.settings);
+  const ae=[];const ab=listen(au.roomCode,'host',null,(e,d)=>ae.push([e,d]));
+  await post('/api/host',{roomCode:au.roomCode,hostToken:au.hostToken,action:'start'});await sleep(150);
+  await post('/api/host',{roomCode:au.roomCode,hostToken:au.hostToken,action:'reveal'});await sleep(1500);
+  const rv=ae.find(x=>x[0]==='results:reveal');
+  check('reveal carries autoNextAt',rv&&rv[1].autoNextAt>Date.now(),rv&&rv[1].autoNextAt);
+  await sleep(5300);
+  const q2=ae.filter(x=>x[0]==='question:show').pop();
+  check('next question started by itself',q2&&q2[1].questionNumber===2,q2&&q2[1].questionNumber);
+  await post('/api/host',{roomCode:au.roomCode,hostToken:au.hostToken,action:'auto',autoNextMs:0});await sleep(150);
+  check('auto can be switched off mid-game',ae.some(x=>x[0]==='auto:update'&&x[1].autoNextMs===0));
+  const off=await post('/api/room/create',{gameType:'wyr',timerMs:5000,readMs:0,enabled:[0,1]});
+  check('auto-advance defaults to off',off.settings.autoNextMs===0,off.settings);
+  const cfg=await get('/api/config');check('/api/config answers',typeof cfg.publicUrl==='string',cfg);
+  ab.destroy();
+  [hb,sb,...pb].forEach(b=>b.destroy());
+  console.log('\n=== RESULT: '+pass+' passed, '+fail+' failed ===\n');
+  process.exit(fail?1:0);})();

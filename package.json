@@ -1,0 +1,23 @@
+{
+  "name": "fun-friday-arena",
+  "version": "29.0.0",
+  "description": "Would You Rather + Quiz - Accenture x Currys Fun Friday, made by PPA Warriors.",
+  "private": true,
+  "main": "server.js",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "playtest": "node playtest.js",
+    "loadtest": "node loadtest.js 700 wyr",
+    "widthtest": "node widthtest.js",
+    "loadproof": "node loadtest27.js",
+    "test:matrix": "python3 qa/test_matrix.py",
+    "test:layout": "python3 qa/test_layout.py",
+    "permtest": "node permtest.js"
+  },
+  "dependencies": {},
+  "author": "PPA Warriors",
+  "license": "UNLICENSED"
+}

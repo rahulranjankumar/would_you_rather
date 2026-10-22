@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#05030F">
+<title>Fun Friday Arena — Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Condiment&family=Poppins:wght@500;600&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/theme.css?v=29">
+<link rel="stylesheet" href="/assets/arena.css?v=29">
+<style>
+  .rhead{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .rcrew{position:relative;width:min(420px,100%);height:150px}
+  .rcrew .crew-band{position:absolute;inset:0}
+  .bars{display:grid;gap:8px;margin-top:4px}
+  .bar{position:relative;height:30px;border-radius:10px;background:rgba(243,238,255,.06);overflow:hidden}
+  .bar i{position:absolute;inset:0;transform-origin:left;background:linear-gradient(90deg,rgba(161,0,255,.55),rgba(0,174,239,.4))}
+  .bar span{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;height:100%;padding:0 12px;font:600 13px var(--f-ui)}
+  .bar b{font:700 13px var(--f-mono)}
+  @media print{
+    .rcrew,body::after,.river,.mute-btn{display:none!important}
+    .acn-wash,.space-bg,.texture,.no-print,#intro{display:none!important}
+    body{background:#fff;color:#111}
+    .glass{background:#fff!important;box-shadow:none!important;border:1px solid #ddd}
+    .glass::before,.glass::after{display:none!important}
+    .f-script,.lb-rank,.hot{-webkit-text-fill-color:#6D28D9;color:#6D28D9!important;filter:none}
+    .label,.body,.lead{color:#444!important}
+    .opt,.acn-word{color:#111!important}
+  }
+/* v29 phones: header actions wrap under the brand instead of running off-screen */
+@media(max-width:640px){
+  .nav{flex-wrap:wrap;row-gap:10px}
+  .nav-right{flex:1 1 100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .nav-right .btn{padding:10px 8px;font-size:13px;justify-content:center;min-height:42px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="nav">
+    <div id="brand"></div>
+    <div class="nav-right no-print">
+      <button class="glass btn btn--ghost" type="button" id="btnCsv">Export CSV</button>
+      <button class="glass btn btn--ghost" type="button" id="btnPrint">Print / PDF</button>
+      <a class="glass btn btn--ghost" href="/host">Host</a>
+    </div>
+  </header>
+</div>
+<main class="shell section section--pad" id="out"><p class="lead">Loading report…</p></main>
+<script src="/assets/perf.js?v=29"></script>
+<script src="/assets/shared.js?v=29"></script>
+<script src="/assets/sfx.js?v=29"></script>
+<script src="/assets/fx.js?v=29"></script>
+<script src="/assets/toy3d.js?v=29"></script>
+<script src="/assets/crew.js?v=30"></script>
+<script src="/assets/arena.js?v=29"></script>
+<script>
+(function(){
+  var F=window.FFA;
+  F.$('#brand').innerHTML=F.brandBar('/');
+  window.Arena.boot({river:false,fx:false});if(window.FX)FX.cursor();
+  F.$('#btnPrint').addEventListener('click',function(){window.print();});
+  var room=(new URLSearchParams(location.search).get('room')||F.store.get('ffa-host-room')||F.store.get('ffa-room')||'').toUpperCase();
+  var out=F.$('#out'),data=null;
+  if(!room){out.innerHTML='<p class="lead">No room specified.</p>';return;}
+  F.getJSON('/api/report?room='+room).then(render).catch(function(e){
+    out.innerHTML='<p class="lead">Could not load the report: '+F.esc(e.message)+'</p>';});
+  F.$('#btnCsv').addEventListener('click',function(){
+    if(!data)return F.toast('Report still loading…');
+    var rows=[['Rank','Name','Score']];
+    (data.leaderboard||[]).forEach(function(p){rows.push([p.rank,p.name,p.score]);});
+    var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"';}).join(',');}).join('\r\n');
+    F.download('fun-friday-'+data.roomCode+'-leaderboard.csv',csv,'text/csv;charset=utf-8');});
+  function statCard(label,value,note){
+    return '<div class="glass stat"><div class="label">'+F.esc(label)+'</div>'+
+      '<div class="f-display stat__n">'+F.esc(String(value))+'</div>'+
+      (note?'<p class="body" style="margin:6px 0 0">'+F.esc(note)+'</p>':'')+'</div>';}
+  function render(r){
+    data=r;
+    document.title='Report — '+r.roomCode;
+    var s=r.superlatives||{},html='';
+    html+='<div class="rhead" style="margin-bottom:calc(30px * var(--dv))"><div>'+
+      '<div class="label">Room '+F.esc(r.roomCode)+' &middot; '+(r.gameType==='quiz'?'Quiz':'Would You Rather')+'</div>'+
+      '<h1 class="f-display h2" style="margin:10px 0 0">Game report</h1>'+
+      '<p class="lead" style="margin-top:8px">Fun Friday Arena · <span class="credit-mark">Made by PPA Warriors</span></p></div><div class="rcrew" id="rcrew"></div></div>';
+    html+='<div class="grid-4" style="margin-bottom:16px">'+
+      statCard('Players',r.totalPlayers)+statCard('Questions',r.totalQuestions)+
+      statCard('Avg answer time',s.avgMs!=null?F.fmtMs(s.avgMs):'—')+
+      statCard('Scoring',r.scoringMode==='points'?'Points':'For fun')+'</div>';
+    var sup=[];
+    if(s.fastest)sup.push(['Fastest finger overall',s.fastest.name,F.fmtMs(s.fastest.avgMs)+' average']);
+    if(s.mostAnswered)sup.push(['Most answers in',s.mostAnswered.name,s.mostAnswered.answered+' answered']);
+    if(s.mostContrarian)sup.push(['Biggest rebel',s.mostContrarian.name,'Least often with the crowd — and proud of it']);
+    if(s.mostCrowd)sup.push(['Most with the crowd',s.mostCrowd.name,s.mostCrowd.n+' picks in sync with the room']);
+    if(s.longestStreak)sup.push(['Longest streak',s.longestStreak.name,s.longestStreak.n+' in a row']);
+    if(s.mostDivisive)sup.push(['Most divisive question','#'+s.mostDivisive.n,s.mostDivisive.prompt]);
+    if(sup.length){
+      html+='<div class="grid-2" style="margin-bottom:16px">';
+      sup.forEach(function(x){
+        html+='<div class="glass card"><div class="label">'+F.esc(x[0])+'</div>'+
+          '<div class="f-display h3" style="margin:8px 0 6px">'+F.esc(x[1])+'</div>'+
+          '<p class="body" style="margin:0">'+F.esc(x[2])+'</p></div>';});
+      html+='</div>';}
+    html+='<div class="glass card" style="margin-bottom:16px"><div class="label" style="margin-bottom:13px">Final standings</div>';
+    if(!(r.leaderboard||[]).length)html+='<p class="body" style="margin:0">Nobody scored.</p>';
+    else r.leaderboard.forEach(function(p){
+      html+='<div class="glass lb-row'+(p.rank===1?' glass--accent':'')+'">'+
+        '<span class="lb-rank num">'+(p.rank<10?'0'+p.rank:p.rank)+'</span>'+
+        '<span class="lb-name">'+F.esc(p.name)+'</span>'+
+        '<span class="lb-pts num">'+p.score+'</span></div>';});
+    html+='</div>';
+    html+='<div class="label" style="margin:calc(24px * var(--dv)) 0 13px">Question by question</div>';
+    (r.questions||[]).forEach(function(q){
+      html+='<div class="glass card" style="margin-bottom:13px">'+
+        '<div class="label">'+F.esc(q.round||q.category||'')+' &middot; Question '+q.n+' &middot; '+q.total+' answers'+
+        (q.fastest?' &middot; fastest '+F.esc(q.fastest.name):'')+'</div>'+
+        '<h3 class="f-display h3" style="margin:10px 0 15px">'+F.esc(q.prompt)+'</h3><div class="bars">';
+      q.options.forEach(function(o,i){
+        var win=q.correct!=null?i===q.correct:(q.winners.indexOf(i)>=0&&q.winners.length<q.options.length);
+        html+='<div class="bar"><i style="transform:scaleX('+(q.percents[i]/100)+')'+(win?';background:linear-gradient(90deg,rgba(198,255,61,.6),rgba(198,255,61,.25))':'')+'"></i><span><span>'+String.fromCharCode(65+i)+' · '+F.esc(o)+(win?(q.correct!=null?' ✓':' 👑'):'')+'</span><b>'+q.percents[i]+'% · '+q.counts[i]+'</b></span></div>';});
+      html+='</div></div>';});
+    out.innerHTML=html;
+    var rc=F.$('#rcrew');if(rc&&window.Crew){var st=Crew.mount(rc,{eggs:false});setTimeout(function(){st.play('wave');},400);}}
+})();
+</script>
+</body>
+</html>
